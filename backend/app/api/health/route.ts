@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 
-export async function GET() {
+type HealthCheckResponse = {
+  ok: boolean;
+};
+
+export async function GET(): Promise<NextResponse<HealthCheckResponse>> {
   return NextResponse.json({
     ok: true,
   });
