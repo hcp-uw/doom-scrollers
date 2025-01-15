@@ -1,0 +1,27 @@
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+
+model Genre {
+  id Int @id @default(autoincrement())
+  value String @unique
+  users User[]
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  preferences Genre[]
+  likedSongs Song[]
+}
+
+model Song {
+  id Int @id @default(autoincrement())
+  // Spotify Track ID:
+  trackID String @unique
+  likedBy User[]
+} 
+
+
