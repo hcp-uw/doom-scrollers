@@ -21,8 +21,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 23
-      - name: Clean install dependencies
-        run: npm ci --legacy-peer-deps
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
       - name: Build codebase
         run: npm run build
 
@@ -36,8 +36,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 23
-      - name: Clean install dependencies
-        run: npm ci --legacy-peer-deps
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
 
       - name: Run tests
         run: npm test
