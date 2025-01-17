@@ -3,6 +3,10 @@ datasource db {
   url = env("DATABASE_URL")
 }
 
+generator client {
+  provider = "prisma-client-js"
+}
+
 model Genre {
   id Int @id @default(autoincrement())
   value String @unique
