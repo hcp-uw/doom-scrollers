@@ -27,6 +27,8 @@ jobs:
           node-version: 23
       - name: Install dependencies
         run: npm install --legacy-peer-deps
+      - name: Install prisma
+        run: npx prisma generate
       - name: Build codebase
         run: npm run build
 
