@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "dev:migrate": "npx prisma migrate deploy && next dev",
+    "dev:migrate": "npx prisma generate && npx prisma migrate deploy && next dev",
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watch"
   },
