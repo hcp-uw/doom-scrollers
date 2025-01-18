@@ -1,4 +1,5 @@
 import prisma from '@/lib/prisma';
+import { createSession } from '@/lib/session';
 import { User } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -20,6 +21,8 @@ export const POST = async (
       username,
     },
   });
+
+  await createSession(user.id);
 
   return NextResponse.json({ user });
 };
