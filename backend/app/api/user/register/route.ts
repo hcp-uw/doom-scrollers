@@ -1,6 +1,5 @@
 import prisma from '@/lib/prisma';
 import { createSession } from '@/lib/session';
-import { User } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 
 type PostRequest = {
