@@ -1,4 +1,4 @@
-FROM node:20.10-alpine AS base
+FROM node:23.4-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -9,12 +9,12 @@ WORKDIR /app
 # Install dependencies
 COPY package.json package-lock.json* ./
 RUN npm install
+COPY ./prisma ./prisma
+RUN npx prisma generate
 
 FROM base AS dev
 
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/prisma /app/prisma
 COPY . .
-
-# Generate prisma migrations
-RUN npx prisma generate
