@@ -4,6 +4,10 @@ import { POST } from './route';
 import { generateMockRequest } from '@/__test__/utils';
 import { NextRequest } from 'next/server';
 
+jest.mock('@/lib/session', () => ({
+  createSession: jest.fn(async (x: number) => x),
+}));
+
 test('Register route returns intended user', async () => {
   const temporaryUser: User = {
     id: 1,

@@ -1,4 +1,6 @@
 import prisma from '@/lib/prisma';
+import { createSession } from '@/lib/session';
+import { User } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 
 type PostRequest = {
@@ -13,6 +15,8 @@ export const POST = async (req: NextRequest) => {
       username,
     },
   });
+
+  await createSession(user.id);
 
   return NextResponse.json({ user });
 };
