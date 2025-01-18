@@ -8,15 +8,11 @@ type PostRequest = {
 export const POST = async (req: NextRequest) => {
   const { username }: PostRequest = await req.json();
 
-  const user = await prisma.user
-    .create({
-      data: {
-        username,
-      },
-    })
-    .catch((e) => {
-      console.error((e as Error).stack);
-    });
+  const user = await prisma.user.create({
+    data: {
+      username,
+    },
+  });
 
   return NextResponse.json({ user });
 };
