@@ -1,4 +1,4 @@
-import { GET } from '../../health/route';
+import { GET } from './route';
 
 jest.mock('@/lib/session', () => ({
   verifySession: jest.fn(() => ({
