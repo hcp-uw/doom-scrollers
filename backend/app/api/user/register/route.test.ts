@@ -16,6 +16,7 @@ test('Register route returns intended user', async () => {
     updatedAt: new Date(),
   };
 
+  prismaMock.user.findFirst.mockResolvedValue(null);
   prismaMock.user.create.mockResolvedValue(temporaryUser);
 
   const req = generateMockRequest(temporaryUser);
@@ -29,4 +30,22 @@ test('Register route returns intended user', async () => {
   };
 
   expect(data.user).toEqual(expected);
+});
+
+test('Registration fails if user exists', async () => {
+  const temporaryUser: User = {
+    id: 1,
+    username: 'test',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+
+  prismaMock.user.findFirst.mockResolvedValue(temporaryUser);
+
+  const req = generateMockRequest({ username: 'test' });
+  const res = await POST(req as NextRequest);
+  const data = await res.json();
+
+  expect(res.status).toEqual(400);
+  expect(data.error).toEqual('User already exists');
 });
