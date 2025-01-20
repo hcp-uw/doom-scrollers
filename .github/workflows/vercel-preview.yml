@@ -6,8 +6,10 @@ on:
   push:
     branches-ignore:
       - main
+    paths:
+      - 'backend/**'
   workflow_dispatch:
-    
+
 jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest
