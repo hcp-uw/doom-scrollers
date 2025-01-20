@@ -1,5 +1,5 @@
 import prisma from '@/lib/prisma';
-import { verifySession } from '@/lib/session';
+import { deleteSession, verifySession } from '@/lib/session';
 import { NextResponse } from 'next/server';
 
 export const GET = async () => {
@@ -27,4 +27,33 @@ export const GET = async () => {
     ...session,
     user,
   });
+};
+
+type DeleteResponse = {
+  success: true;
+};
+
+export const DELETE = async (): Promise<
+  NextResponse<DeleteResponse | { error: string }>
+> => {
+  const session = await verifySession();
+
+  if (!session.isAuth) {
+    return NextResponse.json(
+      {
+        error: 'Invalid session',
+      },
+      { status: 400 }
+    );
+  }
+
+  await deleteSession();
+
+  await prisma.user.delete({
+    where: {
+      id: session.uid,
+    },
+  });
+
+  return NextResponse.json({ success: true });
 };
