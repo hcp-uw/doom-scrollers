@@ -6,8 +6,10 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'backend/**'
   workflow_dispatch:
-    
+
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
