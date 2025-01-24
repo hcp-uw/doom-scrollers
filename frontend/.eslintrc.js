@@ -1,5 +1,11 @@
 // https://docs.expo.dev/guides/using-eslint/
 module.exports = {
-  extends: 'expo',
+  extends: ['expo'],
   ignorePatterns: ['/dist/*'],
+  settings: {
+    'import/resolver': {
+      typescript: {},
+    },
+  },
+  plugins: ['import'],
 };
