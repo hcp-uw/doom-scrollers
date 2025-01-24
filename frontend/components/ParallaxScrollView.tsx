@@ -23,6 +23,7 @@ export default function ParallaxScrollView({
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const bottom = useBottomTabOverflow();
 
+
   return (
     <ThemedView style={styles.container}>
       <Animated.ScrollView
