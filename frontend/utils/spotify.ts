@@ -6,7 +6,7 @@ export const getClientId = () => {
   return SPOTIFY_CLIENT_ID;
 };
 
-const getClientSecret = () => {
+export const getClientSecret = () => {
   return SPOTIFY_CLIENT_SECRET;
 };
 
