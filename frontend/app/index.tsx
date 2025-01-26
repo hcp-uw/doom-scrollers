@@ -1,10 +1,12 @@
 import React from 'react';
 import { SafeAreaView, Text } from 'react-native';
 
-export default function HomeScreen() {
+const Index = () => {
   return (
     <SafeAreaView>
-      <Text>Tab One</Text>
+      <Text>Hello, World</Text>
     </SafeAreaView>
   );
-}
+};
+
+export default Index;
