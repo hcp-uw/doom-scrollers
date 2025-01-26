@@ -5,6 +5,7 @@ export const GET = async () => {
   const songs = await prisma.song.findMany({
     include: {
       likedBy: true,
+      genre: true,
     },
   });
 
