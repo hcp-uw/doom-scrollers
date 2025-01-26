@@ -1,14 +1,5 @@
 import { AccessTokenResponse } from '../types';
 import { makeRedirectUri } from 'expo-auth-session';
-import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from 'react-native-dotenv';
-
-export const getClientId = () => {
-  return SPOTIFY_CLIENT_ID;
-};
-
-const getClientSecret = () => {
-  return SPOTIFY_CLIENT_SECRET;
-};
 
 const generateAccessTokenParams = (code: string) => {
   const params = new URLSearchParams();
@@ -20,13 +11,17 @@ const generateAccessTokenParams = (code: string) => {
   return params.toString();
 };
 
-export const fetchAccessToken = async (code: string) => {
+export const fetchAccessToken = async (
+  code: string,
+  clientId: string,
+  secret: string
+) => {
   const response = await fetch('https://accounts.spotify.com/api/token', {
     method: 'POST',
     body: generateAccessTokenParams(code),
     headers: {
       'content-type': 'application/x-www-form-urlencoded',
-      Authorization: 'Basic ' + btoa(getClientId() + ':' + getClientSecret()),
+      Authorization: 'Basic ' + btoa(clientId + ':' + secret),
     },
   });
 

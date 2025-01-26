@@ -1,17 +1,35 @@
 import { useEffect } from 'react';
-import { Button } from 'react-native';
+import {
+  StyleProp,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
-import { fetchAccessToken, getClientId } from '../utils/spotify';
+import { fetchAccessToken } from '../utils/spotify';
+import Entypo from '@expo/vector-icons/Entypo';
 
 const discovery = {
   authorizationEndpoint: 'https://accounts.spotify.com/authorize',
   tokenEndpoint: 'https://accounts.spotify.com/api/token',
 };
 
-export const SpotifyAuthButton = () => {
+interface Props {
+  clientId: string;
+  secret: string;
+  style?: StyleProp<ViewStyle>;
+}
+
+export const SpotifyAuthButton: React.FC<Props> = ({
+  clientId,
+  secret,
+  style,
+}) => {
   const [request, response, promptAsync] = useAuthRequest(
     {
-      clientId: getClientId(),
+      clientId: clientId,
       scopes: ['user-read-private user-read-email user-library-read'],
       usePKCE: false,
       redirectUri: makeRedirectUri({
@@ -23,7 +41,9 @@ export const SpotifyAuthButton = () => {
 
   const handleUserAuthentication = async (code: string) => {
     const { accessToken, expiration, refreshToken } = await fetchAccessToken(
-      code
+      code,
+      clientId,
+      secret
     );
 
     console.log({ accessToken, expiration, refreshToken });
@@ -37,12 +57,42 @@ export const SpotifyAuthButton = () => {
   }, [response]);
 
   return (
-    <Button
+    <TouchableOpacity
       disabled={!request}
-      title="Login With Spotify"
       onPress={() => {
         promptAsync();
       }}
-    />
+      style={{
+        ...styles.spotifyButton,
+        ...(style as object),
+      }}
+    >
+      <View style={styles.spotifyButtonInner}>
+        <Entypo name="spotify" style={{ marginRight: 10 }} size={24} />
+        <Text style={styles.spotifyButtonText}>Authenticate Spotify</Text>
+      </View>
+    </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  spotifyButton: {
+    borderRadius: 10,
+    backgroundColor: '#1ED760',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    flexShrink: 0,
+    width: '60%',
+    textAlign: 'center',
+  },
+  spotifyButtonText: {
+    textAlign: 'center',
+    color: '#FF',
+    fontWeight: 'bold',
+  },
+  spotifyButtonInner: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+});
