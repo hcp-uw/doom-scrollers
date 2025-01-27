@@ -2,9 +2,11 @@ import prisma from '@/lib/prisma';
 import { createSession } from '@/lib/session';
 import { User } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
+import argon2 from 'argon2';
 
 type PostRequest = {
   username: string;
+  password: string;
 };
 
 type PostResponse = {
@@ -17,7 +19,7 @@ type PostResponse = {
 export const POST = async (
   req: NextRequest
 ): Promise<NextResponse<PostResponse | { error: string }>> => {
-  const { username }: PostRequest = await req.json();
+  const { username, password }: PostRequest = await req.json();
 
   const existingUser = await prisma.user.findFirst({
     where: {
@@ -27,6 +29,15 @@ export const POST = async (
 
   if (!existingUser) {
     return NextResponse.json({ error: "User doesn't exist" }, { status: 404 });
+  }
+
+  const isCorrectPassword = await argon2.verify(
+    existingUser.password,
+    password
+  );
+
+  if (!isCorrectPassword) {
+    return NextResponse.json({ error: 'Incorrect password' }, { status: 400 });
   }
 
   await createSession(existingUser.id);
