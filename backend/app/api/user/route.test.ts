@@ -21,6 +21,7 @@ test('Delete succeeds if user is authenticated', async () => {
     username: 'test',
     createdAt: new Date(),
     updatedAt: new Date(),
+    password: 'test',
   };
   prismaMock.user.delete.mockResolvedValue(temporaryUser);
 

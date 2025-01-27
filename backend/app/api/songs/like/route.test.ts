@@ -15,7 +15,11 @@ test("Liked songs fails if session isn't valid", async () => {
     isAuth: false,
   });
 
-  prismaMock.song.upsert.mockResolvedValue({ id: 1, trackID: 'test' });
+  prismaMock.song.upsert.mockResolvedValue({
+    id: 1,
+    trackID: 'test',
+    genreId: null,
+  });
 
   const req = generateMockRequest({
     trackId: 'test',
@@ -33,7 +37,11 @@ test('Liked songs succeeds for valid session', async () => {
     uid: 2,
   });
 
-  prismaMock.song.upsert.mockResolvedValue({ id: 1, trackID: 'test' });
+  prismaMock.song.upsert.mockResolvedValue({
+    id: 1,
+    trackID: 'test',
+    genreId: null,
+  });
 
   const req = generateMockRequest({
     trackId: 'test',
