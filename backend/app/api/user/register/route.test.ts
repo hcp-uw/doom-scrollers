@@ -12,6 +12,7 @@ test('Register route returns intended user', async () => {
   const temporaryUser: User = {
     id: 1,
     username: 'test',
+    password: 'test1',
     createdAt: new Date(),
     updatedAt: new Date(),
   };
@@ -19,7 +20,10 @@ test('Register route returns intended user', async () => {
   prismaMock.user.findFirst.mockResolvedValue(null);
   prismaMock.user.create.mockResolvedValue(temporaryUser);
 
-  const req = generateMockRequest(temporaryUser);
+  const req = generateMockRequest({
+    username: temporaryUser.username,
+    password: temporaryUser.password,
+  });
   const res = await POST(req as NextRequest);
   const data = await res.json();
 
@@ -36,16 +40,39 @@ test('Registration fails if user exists', async () => {
   const temporaryUser: User = {
     id: 1,
     username: 'test',
+    password: 'test1',
     createdAt: new Date(),
     updatedAt: new Date(),
   };
 
   prismaMock.user.findFirst.mockResolvedValue(temporaryUser);
 
-  const req = generateMockRequest({ username: 'test' });
+  const req = generateMockRequest({
+    username: 'test',
+    password: temporaryUser.password,
+  });
   const res = await POST(req as NextRequest);
   const data = await res.json();
 
   expect(res.status).toEqual(400);
   expect(data.error).toEqual('User already exists');
+});
+
+test('Registration fails if password is too short', async () => {
+  const temporaryUser: User = {
+    id: 1,
+    username: 'test',
+    password: 't',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+
+  prismaMock.user.create.mockResolvedValue(temporaryUser);
+
+  const req = generateMockRequest({ username: 'user1', password: 't' });
+  const res = await POST(req as NextRequest);
+  const data = await res.json();
+
+  expect(res.status).toEqual(400);
+  expect(data.error).toEqual('Password is too short');
 });
