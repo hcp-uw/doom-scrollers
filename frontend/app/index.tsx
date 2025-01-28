@@ -1,11 +1,13 @@
 import { SafeAreaView, Text } from 'react-native';
 
-export default function NotFoundScreen() {
+const Index = () => {
   return (
     <>
       <SafeAreaView>
-        <Text>Page does not exist</Text>
+        <Text>Hello, world</Text>
       </SafeAreaView>
     </>
   );
-}
+};
+
+export default Index;
