@@ -1,3 +1,4 @@
+import { SpotifyAuthButton } from '@/components/SpotifyAuthButton';
 import { SafeAreaView, Text } from 'react-native';
 
 const Index = () => {
@@ -5,6 +6,7 @@ const Index = () => {
     <>
       <SafeAreaView>
         <Text>Hello, world</Text>
+        <SpotifyAuthButton />
       </SafeAreaView>
     </>
   );
