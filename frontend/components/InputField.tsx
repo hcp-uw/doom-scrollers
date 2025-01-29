@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import {
   View,
   Text,
@@ -12,12 +12,14 @@ interface Props {
   placeholder: string;
   style?: StyleProp<ViewStyle>;
   kind?: 'text' | 'password';
+  onChange?: (text: string) => void;
 }
 export const InputField: React.FC<Props> = ({
   label,
   placeholder,
   style,
   kind,
+  onChange,
 }) => {
   return (
     <View
@@ -32,10 +34,12 @@ export const InputField: React.FC<Props> = ({
         placeholder={placeholder}
         placeholderTextColor="#aaa"
         secureTextEntry={kind === 'password'}
+        onChangeText={onChange}
       />
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     marginVertical: 10,
