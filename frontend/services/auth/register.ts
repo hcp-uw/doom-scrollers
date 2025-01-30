@@ -1,5 +1,6 @@
 import { LOCAL_API_ENDPOINT } from '@/constants';
 import { ErrorResponse, User } from '@/types';
+import { saveCookie } from '@/utils/cookies';
 
 export const register = async (
   username: string,
@@ -12,6 +13,8 @@ export const register = async (
     },
     body: JSON.stringify({ username, password }),
   });
+
+  saveCookie(response.headers.get('set-cookie')!);
 
   const data = await response.json();
 
