@@ -7,7 +7,6 @@ import { register } from '@/services/auth/register';
 import { Button } from '@/components/Button';
 import { Spinner } from '@/components/Spinner';
 import { useRouter } from 'expo-router';
-import { login } from '@/services/auth/login';
 
 const Index = () => {
   const [username, setUsername] = useState('');
@@ -15,8 +14,8 @@ const Index = () => {
   const [error, setError] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
 
-  const router = useRouter();
 
+  const router = useRouter();
   const registerUser = async () => {
     setError(undefined);
     setIsLoading(true);
