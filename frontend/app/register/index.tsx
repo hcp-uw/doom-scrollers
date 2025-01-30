@@ -6,6 +6,7 @@ import { InputField } from '@/components/InputField';
 import { register } from '@/services/auth/register';
 import { Button } from '@/components/Button';
 import { Spinner } from '@/components/Spinner';
+import { useRouter } from 'expo-router';
 
 const Index = () => {
   const [username, setUsername] = useState('');
@@ -13,16 +14,20 @@ const Index = () => {
   const [error, setError] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
 
+
+  const router = useRouter();
   const registerUser = async () => {
     setError(undefined);
     setIsLoading(true);
     const [_, error] = await register(username, password);
 
+    setIsLoading(false);
     if (error) {
       setError(error.error);
+      return;
     }
 
-    setIsLoading(false);
+    router.navigate('/main');
   };
 
   return (
