@@ -7,6 +7,10 @@ import { register } from '@/services/auth/register';
 import { Button } from '@/components/Button';
 import { Spinner } from '@/components/Spinner';
 import { useRouter } from 'expo-router';
+import {
+  getSpotifyCredentials,
+  validateSpotifyCredentials,
+} from '@/utils/spotify';
 
 const Index = () => {
   const [username, setUsername] = useState('');
@@ -14,9 +18,15 @@ const Index = () => {
   const [error, setError] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
 
-
   const router = useRouter();
   const registerUser = async () => {
+    const isSpotifyValid = await validateSpotifyCredentials();
+
+    if (!isSpotifyValid) {
+      setError('Please authorize Spotify before continuing');
+      return;
+    }
+
     setError(undefined);
     setIsLoading(true);
     const [_, error] = await register(username, password);

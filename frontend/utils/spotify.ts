@@ -1,5 +1,10 @@
 import { AccessTokenResponse } from '../types';
 import { makeRedirectUri } from 'expo-auth-session';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const ACCESS_TOKEN_KEY = 'spotify-access-token';
+const EXPIRATION_KEY = 'spotify-expiration';
+const REFRESH_TOKEN_KEY = 'spotify-refresh-token';
 
 export const getClientId = () => {
   return process.env.EXPO_PUBLIC_SPOTIFY_CLIENT_ID;
@@ -27,10 +32,48 @@ export const fetchAccessToken = async (code: string) => {
     },
   });
   const json = (await response.json()) as AccessTokenResponse;
+  saveSpotifyCredentials(
+    json.access_token,
+    json.expires_in,
+    json.refresh_token
+  );
   console.log(json);
   return {
     accessToken: json.access_token,
     expiration: json.expires_in,
     refreshToken: json.refresh_token,
   };
+};
+
+export const saveSpotifyCredentials = async (
+  accessToken: string,
+  expiration: number,
+  refreshToken: string
+) => {
+  await AsyncStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+  await AsyncStorage.setItem(
+    EXPIRATION_KEY,
+    (Date.now() + expiration).toString()
+  );
+  await AsyncStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+};
+
+export const getSpotifyCredentials = async () => {
+  const storedExpiration = await AsyncStorage.getItem(EXPIRATION_KEY);
+  return {
+    accessToken: await AsyncStorage.getItem(ACCESS_TOKEN_KEY),
+    expiration: storedExpiration ? parseInt(storedExpiration) : null,
+    refreshToken: await AsyncStorage.getItem(REFRESH_TOKEN_KEY),
+  };
+};
+
+export const validateSpotifyCredentials = async () => {
+  const { accessToken, expiration, refreshToken } =
+    await getSpotifyCredentials();
+
+  if (!expiration || expiration > Date.now()) {
+    return false;
+  }
+
+  return accessToken && refreshToken;
 };
