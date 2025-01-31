@@ -1,22 +1,18 @@
-import { getCurrentSession } from '@/services/auth/me';
-import { User } from '@/types';
-import { useEffect, useState } from 'react';
+import { useAuth } from '@/hooks/useAuth';
 import { SafeAreaView, Text } from 'react-native';
 
 const Index = () => {
-  const [user, setUser] = useState<User>();
-
-  useEffect(() => {
-    const call = async () => {
-      const [currentUser, error] = await getCurrentSession();
-      setUser(currentUser!);
-    };
-    call();
-  }, []);
+  const { user, error, isLoading } = useAuth();
 
   return (
     <SafeAreaView>
-      <Text>{user?.username}</Text>
+      {isLoading ? (
+        <Text>Loading</Text>
+      ) : error ? (
+        <Text>{error}</Text>
+      ) : (
+        <Text>{user?.username}</Text>
+      )}
     </SafeAreaView>
   );
 };
