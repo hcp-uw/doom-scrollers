@@ -7,10 +7,7 @@ import { register } from '@/services/auth/register';
 import { Button } from '@/components/Button';
 import { Spinner } from '@/components/Spinner';
 import { useRouter } from 'expo-router';
-import {
-  getSpotifyCredentials,
-  validateSpotifyCredentials,
-} from '@/utils/spotify';
+import { validateSpotifyCredentials } from '@/utils/spotify';
 
 const Index = () => {
   const [username, setUsername] = useState('');
