@@ -75,5 +75,5 @@ export const validateSpotifyCredentials = async () => {
     return false;
   }
 
-  return accessToken && refreshToken;
+  return !!accessToken && !!refreshToken;
 };
