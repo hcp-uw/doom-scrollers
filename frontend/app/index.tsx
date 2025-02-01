@@ -1,3 +1,4 @@
+import { Button } from '@/components/Button';
 import { SpotifyAuthButton } from '@/components/SpotifyAuthButton';
 import { useRouter } from 'expo-router';
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity } from 'react-native';
@@ -8,13 +9,21 @@ const Index = () => {
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <TouchableOpacity
+        <Button
+          title="Go To Register Page"
           onPress={() => {
             router.navigate('/register');
           }}
-        >
-          <Text>Go To Register Page</Text>
-        </TouchableOpacity>
+          style={{
+            marginBottom: 20,
+          }}
+        />
+        <Button
+          title="Go To Login Page"
+          onPress={() => {
+            router.navigate('/login');
+          }}
+        />
       </SafeAreaView>
     </>
   );
