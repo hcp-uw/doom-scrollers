@@ -1,14 +1,7 @@
 import { Button } from '@/components/Button';
 import { Header } from '@/components/Header';
-import { SpotifyAuthButton } from '@/components/SpotifyAuthButton';
 import { useRouter } from 'expo-router';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
 const Index = () => {
   const router = useRouter();
