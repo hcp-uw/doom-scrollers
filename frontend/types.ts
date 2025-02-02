@@ -14,3 +14,8 @@ export interface User {
 export interface ErrorResponse {
   error: string;
 }
+
+export interface Genre {
+  id: number;
+  value: string;
+}
