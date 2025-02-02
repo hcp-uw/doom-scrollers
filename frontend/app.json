@@ -16,7 +16,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.anonymous.frontend"
     },
     "web": {
       "bundler": "metro",
@@ -39,12 +40,12 @@
         "expo-font",
         {
           "fonts": [
-            "@node_modules/@expo-google-fonts/inter/Inter-Regular.ttf",
-            "@node_modules/@expo-google-fonts/inter/Inter-Bold.ttf",
-            "@node_modules/@expo-google-fonts/inter/Inter-Medium.ttf",
-            "@node_modules/@expo-google-fonts/inter/Inter-SemiBold.ttf",
-            "@node_modules/@expo-google-fonts/inter/Inter-Light.ttf",
-            "@node_modules/@expo-google-fonts/inter/Inter-Thin.ttf"
+            "node_modules/@expo-google-fonts/inter/Inter_400Regular.ttf",
+            "node_modules/@expo-google-fonts/inter/Inter_700Bold.ttf",
+            "node_modules/@expo-google-fonts/inter/Inter_500Medium.ttf",
+            "node_modules/@expo-google-fonts/inter/Inter_600SemiBold.ttf",
+            "node_modules/@expo-google-fonts/inter/Inter_300Light.ttf",
+            "node_modules/@expo-google-fonts/inter/Inter_100Thin.ttf"
           ]
         }
       ]

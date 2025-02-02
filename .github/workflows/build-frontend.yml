@@ -16,7 +16,7 @@ defaults:
     working-directory: ./frontend
 
 jobs:
-  build:
+  build-frontend:
     runs-on: ubuntu-latest
     steps:
       - name: Clone repository
