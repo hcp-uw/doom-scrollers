@@ -12,13 +12,21 @@ interface Props {
   title: string;
   onPress?: (event: GestureResponderEvent) => void;
   style?: StyleProp<ViewStyle>;
+  kind?: 'primary' | 'secondary';
 }
 
-export const Button: React.FC<Props> = ({ title, onPress, style }) => {
+export const Button: React.FC<Props> = ({
+  title,
+  onPress,
+  style,
+  kind = 'primary',
+}) => {
+  const buttonStyle = kind === 'primary' ? styles.primary : styles.secondary;
+
   return (
     <TouchableOpacity
       style={{
-        ...styles.button,
+        ...buttonStyle,
         ...(style as object),
       }}
       onPress={onPress}
@@ -29,7 +37,7 @@ export const Button: React.FC<Props> = ({ title, onPress, style }) => {
 };
 
 const styles = StyleSheet.create({
-  button: {
+  primary: {
     backgroundColor: '#a568ff',
     padding: 12,
     borderRadius: 8,
@@ -39,5 +47,11 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  secondary: {
+    backgroundColor: 'black',
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center',
   },
 });

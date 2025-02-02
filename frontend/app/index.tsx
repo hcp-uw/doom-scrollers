@@ -1,7 +1,7 @@
 import { Button } from '@/components/Button';
-import { SpotifyAuthButton } from '@/components/SpotifyAuthButton';
+import { Header } from '@/components/Header';
 import { useRouter } from 'expo-router';
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
 const Index = () => {
   const router = useRouter();
@@ -9,21 +9,47 @@ const Index = () => {
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <Button
-          title="Go To Register Page"
-          onPress={() => {
-            router.navigate('/register');
-          }}
-          style={{
-            marginBottom: 20,
-          }}
-        />
-        <Button
-          title="Go To Login Page"
-          onPress={() => {
-            router.navigate('/login');
-          }}
-        />
+        <View style={styles.view}>
+          <Header
+            text="Tune Scrollers"
+            style={{
+              color: 'black',
+              fontWeight: 'bold',
+              textAlign: 'center',
+              width: '100%',
+              fontSize: 45,
+            }}
+          />
+          <Text
+            style={{
+              marginBottom: 120,
+              fontSize: 15,
+            }}
+          >
+            Discover and Connect Like Never Before
+          </Text>
+          <Button
+            title="Register"
+            onPress={() => {
+              router.navigate('/register');
+            }}
+            style={{
+              marginBottom: 20,
+              width: '50%',
+            }}
+            kind="secondary"
+          />
+          <Button
+            title="Login"
+            onPress={() => {
+              router.navigate('/login');
+            }}
+            kind="secondary"
+            style={{
+              width: '50%',
+            }}
+          />
+        </View>
       </SafeAreaView>
     </>
   );
@@ -33,8 +59,13 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
+    backgroundColor: '#a568ff',
+  },
+  view: {
     alignItems: 'center',
     justifyContent: 'center',
+    height: '80%',
+    width: '100%',
   },
 });
 
