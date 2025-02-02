@@ -61,7 +61,7 @@ export const SpotifyAuthButton: React.FC<Props> = ({ style }) => {
     >
       <View style={styles.spotifyButtonInner}>
         <Entypo name="spotify" style={{ marginRight: 10 }} size={24} />
-        <Text style={styles.spotifyButtonText}>Authenticate Spotify</Text>
+        <Text style={styles.spotifyButtonText}>authenticate spotify</Text>
       </View>
     </TouchableOpacity>
   );
@@ -78,8 +78,8 @@ const styles = StyleSheet.create({
   },
   spotifyButtonText: {
     textAlign: 'center',
-    color: '#FF',
-    fontWeight: 'bold',
+    color: 'black',
+    fontFamily: 'Inter_700Bold',
   },
   spotifyButtonInner: {
     display: 'flex',

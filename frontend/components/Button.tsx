@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   text: {
     color: 'white',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontFamily: 'Inter_600SemiBold',
   },
   secondary: {
     backgroundColor: 'black',

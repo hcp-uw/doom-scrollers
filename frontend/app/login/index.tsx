@@ -41,14 +41,14 @@ const Index = () => {
     <SafeAreaView style={styles.background}>
       <View style={styles.container}>
         <Header
-          text="Login"
+          text="login"
           style={{
             marginBottom: 20,
           }}
         />
         <InputField
-          label="Username"
-          placeholder="Username"
+          label="username"
+          placeholder="username"
           style={{
             marginBottom: 10,
             width: '80%',
@@ -56,8 +56,8 @@ const Index = () => {
           onChange={setUsername}
         />
         <InputField
-          label="Password"
-          placeholder="Password"
+          label="password"
+          placeholder="password"
           style={{
             marginBottom: 20,
             width: '80%',
@@ -76,7 +76,7 @@ const Index = () => {
             paddingRight: 80,
             marginBottom: 20,
           }}
-          title="Login"
+          title="login"
           onPress={loginUser}
         />
         {isLoading && <Spinner />}

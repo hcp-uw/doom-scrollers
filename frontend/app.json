@@ -34,7 +34,20 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "@node_modules/@expo-google-fonts/inter/Inter-Regular.ttf",
+            "@node_modules/@expo-google-fonts/inter/Inter-Bold.ttf",
+            "@node_modules/@expo-google-fonts/inter/Inter-Medium.ttf",
+            "@node_modules/@expo-google-fonts/inter/Inter-SemiBold.ttf",
+            "@node_modules/@expo-google-fonts/inter/Inter-Light.ttf",
+            "@node_modules/@expo-google-fonts/inter/Inter-Thin.ttf"
+          ]
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

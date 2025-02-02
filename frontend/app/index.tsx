@@ -11,7 +11,7 @@ const Index = () => {
       <SafeAreaView style={styles.container}>
         <View style={styles.view}>
           <Header
-            text="Tune Scrollers"
+            text="tune scrollers."
             style={{
               color: 'black',
               fontWeight: 'bold',
@@ -24,12 +24,14 @@ const Index = () => {
             style={{
               marginBottom: 120,
               fontSize: 15,
+              textAlign: 'center',
+              width: '100%',
             }}
           >
-            Discover and Connect Like Never Before
+            discover and connect like never before
           </Text>
           <Button
-            title="Register"
+            title="register"
             onPress={() => {
               router.navigate('/register');
             }}
@@ -40,7 +42,7 @@ const Index = () => {
             kind="secondary"
           />
           <Button
-            title="Login"
+            title="login"
             onPress={() => {
               router.navigate('/login');
             }}
