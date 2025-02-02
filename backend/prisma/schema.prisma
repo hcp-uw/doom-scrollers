@@ -23,6 +23,7 @@ model User {
   updatedAt DateTime @updatedAt
   preferences Genre[]
   likedSongs Song[]
+  seenSongs Song[] @relation("SongSeenBy")
 }
 
 model Song {
@@ -32,6 +33,7 @@ model Song {
   likedBy User[]
   genreId Int?
   genre Genre? @relation(fields: [genreId], references: [id])
+  seenBy User[] @relation("SongSeenBy")
 } 
 
 
