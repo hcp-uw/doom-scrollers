@@ -26,8 +26,7 @@ const Profile = () => {
 
   useEffect(() => {
     fetchGenres();
-  });
-
+  }, []);
 
   if (isLoading) {
     return (
