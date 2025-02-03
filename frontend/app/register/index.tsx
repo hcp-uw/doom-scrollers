@@ -9,6 +9,7 @@ import { Spinner } from '@/components/Spinner';
 import { useRouter } from 'expo-router';
 import { validateSpotifyCredentials } from '@/utils/spotify';
 import { CheckBox } from 'react-native-elements';
+import RegisterPageSVG from '@/assets/svgs/registerPage.svg';
 
 const Index = () => {
   const [username, setUsername] = useState('');
@@ -106,15 +107,16 @@ const Index = () => {
       </View>
       <View style={styles.footerContainer}>
         <Text style={styles.footerText}>
+          Already have an account?{' '}
           <Text
             style={styles.footerLink}
             onPress={() => router.navigate('/login')}
           >
-            Already have an account?
-          </Text>{' '}
-          Login
+            Login
+          </Text>
         </Text>
       </View>
+      <RegisterPageSVG style={{ position: 'absolute', bottom: 0, left: 0 }} />
     </SafeAreaView>
   );
 };
@@ -138,7 +140,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     marginLeft: 40,
-    marginBottom: 60,
+    marginBottom: 30,
     marginTop: 40,
   },
   optionsContainer: {

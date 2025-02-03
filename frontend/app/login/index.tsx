@@ -9,7 +9,7 @@ import { useRouter } from 'expo-router';
 import { validateSpotifyCredentials } from '@/utils/spotify';
 import { CheckBox } from 'react-native-elements';
 import { login } from '@/services/auth/login';
-
+import LoginPageSVG from '@/assets/svgs/loginPage.svg';
 const Index = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -106,15 +106,16 @@ const Index = () => {
       </View>
       <View style={styles.footerContainer}>
         <Text style={styles.footerText}>
+          Don't have an account?{' '}
           <Text
             style={styles.footerLink}
-            onPress={() => router.navigate('/login')}
+            onPress={() => router.navigate('/register')}
           >
-            Already have an account?
-          </Text>{' '}
-          Login
+            Register
+          </Text>
         </Text>
       </View>
+      <LoginPageSVG />
     </SafeAreaView>
   );
 };
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     marginLeft: 40,
-    marginBottom: 60,
+    marginBottom: 30,
     marginTop: 40,
   },
   optionsContainer: {
@@ -164,6 +165,7 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 40,
   },
   footerText: {
     color: 'white',
