@@ -18,5 +18,12 @@ export const getCurrentSession = async (): Promise<
     return [null, { error: data.error }];
   }
 
-  return [data.user as User, null];
+  return [
+    {
+      ...(data.user as User),
+      createdAt: new Date(data.user.createdAt),
+      updatedAt: new Date(data.user.updatedAt),
+    },
+    null,
+  ];
 };
