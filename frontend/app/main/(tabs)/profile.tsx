@@ -11,9 +11,22 @@ import GenreCard from '@/components/GenreCard';
 import { Header } from '@/components/Header';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { Button } from '@/components/Button';
+import { useEffect, useState } from 'react';
+import { Genre } from '@/types';
+import { getUserGenres } from '@/services/genre';
 
 const Profile = () => {
   const { user, error, isLoading } = useAuth();
+  const [genres, setGenres] = useState<Genre[]>([]);
+
+  const fetchGenres = async () => {
+    const userGenres = await getUserGenres();
+    setGenres(userGenres);
+  };
+
+  useEffect(() => {
+    fetchGenres();
+  });
 
   if (isLoading) {
     return (
@@ -93,10 +106,9 @@ const Profile = () => {
           }}
         />
         <ScrollView horizontal>
-          <GenreCard genre="pop" />
-          <GenreCard genre="rock" />
-          <GenreCard genre="hip-hop" />
-          <GenreCard genre="country" />
+          {genres.map((genre) => (
+            <GenreCard genre={genre.value} key={genre.id} />
+          ))}
         </ScrollView>
       </View>
       <View style={styles.footer}>
