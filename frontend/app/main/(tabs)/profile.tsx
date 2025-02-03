@@ -1,5 +1,16 @@
-import { SafeAreaView, StyleSheet, Text, View, Image } from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+} from 'react-native';
 import { useAuth } from '@/hooks/useAuth';
+import GenreCard from '@/components/GenreCard';
+import { Header } from '@/components/Header';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import { Button } from '@/components/Button';
 
 const Profile = () => {
   const { user, error, isLoading } = useAuth();
@@ -24,8 +35,6 @@ const Profile = () => {
     );
   }
 
-  console.log(user?.createdAt);
-
   return (
     <SafeAreaView style={styles.background}>
       <View style={styles.profilePictureContainer}>
@@ -37,7 +46,7 @@ const Profile = () => {
       <View
         style={{
           alignItems: 'center',
-          marginBottom: 20,
+          marginBottom: 35,
         }}
       >
         <Text
@@ -53,6 +62,56 @@ const Profile = () => {
         <Text style={styles.memberSinceText}>
           member since {user?.createdAt.getFullYear()}
         </Text>
+      </View>
+      <View
+        style={{
+          marginBottom: 20,
+        }}
+      >
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginHorizontal: 10,
+          }}
+        >
+          <Header
+            text="My Genres"
+            style={{
+              fontSize: 20,
+              marginLeft: 10,
+            }}
+          />
+          <AntDesign name="edit" size={24} color="white" />
+        </View>
+        <View
+          style={{
+            borderBottomColor: 'white',
+            borderBottomWidth: 1,
+            marginVertical: 10,
+          }}
+        />
+        <ScrollView horizontal>
+          <GenreCard genre="pop" />
+          <GenreCard genre="rock" />
+          <GenreCard genre="hip-hop" />
+          <GenreCard genre="country" />
+        </ScrollView>
+      </View>
+      <View style={styles.footer}>
+        <Button
+          style={{
+            width: '90%',
+          }}
+          title="Account Settings"
+        />
+        <Button
+          style={{
+            width: '90%',
+          }}
+          title="Sign Out"
+        />
       </View>
     </SafeAreaView>
   );
@@ -95,6 +154,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'LexendDeca_500Medium',
     fontStyle: 'italic',
+  },
+  footer: {
+    marginTop: 100,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 15,
   },
 });
 

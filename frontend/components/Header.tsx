@@ -20,6 +20,6 @@ const styles = StyleSheet.create({
   header: {
     color: 'white',
     fontSize: 30,
-    fontWeight: 'bold',
+    fontFamily: 'Inter_700Bold',
   },
 });
