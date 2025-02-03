@@ -45,7 +45,16 @@
             "node_modules/@expo-google-fonts/inter/Inter_500Medium.ttf",
             "node_modules/@expo-google-fonts/inter/Inter_600SemiBold.ttf",
             "node_modules/@expo-google-fonts/inter/Inter_300Light.ttf",
-            "node_modules/@expo-google-fonts/inter/Inter_100Thin.ttf"
+            "node_modules/@expo-google-fonts/inter/Inter_100Thin.ttf",
+            "node_modules/@expo-google-fonts/lexend-deca/LexendDeca_400Regular.ttf",
+            "node_modules/@expo-google-fonts/lexend-deca/LexendDeca_500Medium.ttf",
+            "node_modules/@expo-google-fonts/lexend-deca/LexendDeca_600SemiBold.ttf",
+            "node_modules/@expo-google-fonts/lexend-deca/LexendDeca_700Bold.ttf",
+            "node_modules/@expo-google-fonts/lexend-deca/LexendDeca_800ExtraBold.ttf",
+            "node_modules/@expo-google-fonts/lexend-deca/LexendDeca_900Black.ttf",
+            "node_modules/@expo-google-fonts/lexend-deca/LexendDeca_100Thin.ttf",
+            "node_modules/@expo-google-fonts/lexend-deca/LexendDeca_200ExtraLight.ttf",
+            "node_modules/@expo-google-fonts/lexend-deca/LexendDeca_300Light.ttf"
           ]
         }
       ]

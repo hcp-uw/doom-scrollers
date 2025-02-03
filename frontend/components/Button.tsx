@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   text: {
     color: 'white',
     fontSize: 16,
-    fontFamily: 'Inter_600SemiBold',
+    fontFamily: 'LexendDeca_500Medium',
   },
   secondary: {
     backgroundColor: 'black',

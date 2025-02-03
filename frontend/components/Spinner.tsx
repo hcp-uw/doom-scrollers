@@ -1,18 +1,20 @@
 import React from 'react';
-import { View, ActivityIndicator, StyleSheet } from 'react-native';
+import {
+  View,
+  ActivityIndicator,
+  StyleSheet,
+  StyleProp,
+  ViewStyle,
+} from 'react-native';
 
 interface SpinnerProps {
-  size?: 'small' | 'large';
-  color?: string;
+  style?: StyleProp<ViewStyle>;
 }
 
-export const Spinner: React.FC<SpinnerProps> = ({
-  size = 'large',
-  color = '#a568ff',
-}) => {
+export const Spinner: React.FC<SpinnerProps> = ({ style }) => {
   return (
-    <View style={styles.container}>
-      <ActivityIndicator size={size} color={color} />
+    <View style={[styles.container, style]}>
+      <ActivityIndicator size={'large'} color={'#a568ff'} />
     </View>
   );
 };
