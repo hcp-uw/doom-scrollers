@@ -28,6 +28,7 @@ const Profile = () => {
     fetchGenres();
   });
 
+
   if (isLoading) {
     return (
       <SafeAreaView style={styles.background}>
