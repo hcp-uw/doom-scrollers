@@ -45,10 +45,10 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   label: {
-    fontSize: 16,
-    color: 'white',
-    marginBottom: 5,
-    fontWeight: 'bold',
+    fontSize: 14,
+    color: '#a568ff',
+    marginBottom: 10,
+    fontFamily: 'LexendDeca_500Medium',
   },
   input: {
     height: 40,
@@ -57,6 +57,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 10,
     fontSize: 16,
-    color: 'white',
+    color: 'gray',
+    backgroundColor: 'white',
+    fontFamily: 'LexendDeca_400Regular',
   },
 });
