@@ -10,7 +10,7 @@ export const useDevices = (accessToken: string) => {
 
   useEffect(() => {
     const fetchDevices = async () => {
-      const devices = await getSpotifyDevices(accessToken);
+      const devices = await getSpotifyDevices();
       console.log(devices);
       setDevices(devices);
     };

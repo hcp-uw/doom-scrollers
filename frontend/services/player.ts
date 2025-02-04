@@ -1,4 +1,5 @@
 import { SpotifyDevice } from '@/types';
+import { getSpotifyCredentials } from '@/utils/spotify';
 
 export const playTrack = async (
   trackId: string,
@@ -18,7 +19,9 @@ export const playTrack = async (
   console.log(data);
 };
 
-export const getSpotifyDevices = async (token: string) => {
+export const getSpotifyDevices = async () => {
+  const { accessToken: token } = await getSpotifyCredentials();
+
   const response = await fetch('https://api.spotify.com/v1/me/player/devices', {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -26,5 +29,6 @@ export const getSpotifyDevices = async (token: string) => {
   });
 
   const data = await response.json();
+  console.log(data);
   return data.devices as SpotifyDevice[];
 };

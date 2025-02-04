@@ -71,9 +71,11 @@ export const validateSpotifyCredentials = async () => {
   const { accessToken, expiration, refreshToken } =
     await getSpotifyCredentials();
 
-  if (!expiration || expiration > Date.now()) {
+  if (!expiration || Date.now() > expiration) {
+    console.log('credentials expired');
     // Refresh if credentials expired and refresh token is available
     if (refreshToken) {
+      console.log('refreshing credentials');
       await refreshAccessToken(refreshToken);
       return true;
     } else {
@@ -84,18 +86,29 @@ export const validateSpotifyCredentials = async () => {
   return !!accessToken && !!refreshToken;
 };
 
+const generateRefreshTokenParams = (refreshToken: string) => {
+  const params = new URLSearchParams();
+  params.append('grant_type', 'refresh_token');
+  params.append('refresh_token', refreshToken);
+  params.append('client_id', getClientId()!);
+  return params.toString();
+};
+
 export const refreshAccessToken = async (refreshToken: string) => {
   const response = await fetch('https://accounts.spotify.com/api/token', {
     method: 'POST',
-    body: new URLSearchParams({
-      grant_type: 'refresh_token',
-      client_id: getClientId()!,
-      refresh_token: refreshToken,
-    }),
+    body: generateRefreshTokenParams(refreshToken),
     headers: {
-      'content-type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: 'Basic ' + btoa(getClientId() + ':' + getClientSecret()),
     },
   });
   const json = await response.json();
-  saveSpotifyCredentials(json.access_token, json.expires_in, refreshToken);
+  console.log('refreshed credentials');
+  console.log('refreshed json', json);
+  await saveSpotifyCredentials(
+    json.access_token,
+    json.expires_in,
+    refreshToken
+  );
 };
