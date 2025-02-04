@@ -25,7 +25,7 @@ export const SpotifyAuthButton: React.FC<Props> = ({ style }) => {
     {
       clientId: getClientId()!,
       scopes: [
-        'user-read-private user-read-email user-library-read user-modify-playback-state',
+        'user-read-private user-read-email user-library-read user-modify-playback-state user-read-playback-state',
       ],
       usePKCE: false,
       redirectUri: makeRedirectUri({
