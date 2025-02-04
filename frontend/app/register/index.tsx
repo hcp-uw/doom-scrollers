@@ -37,7 +37,7 @@ const Index = () => {
       return;
     }
 
-    router.navigate('/main');
+    router.navigate('/onboard');
   };
 
   return (
