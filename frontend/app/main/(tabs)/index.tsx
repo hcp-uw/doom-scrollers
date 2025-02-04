@@ -3,9 +3,18 @@ import { useSongs } from '@/hooks/useSongs';
 import { Button } from '@/components/Button';
 import { playTrack } from '@/services/player';
 import { useSpotify } from '@/hooks/useSpotify';
+import { useState } from 'react';
+import { SpotifyDevice } from '@/types';
+import DeviceSelection from '@/components/DeviceSelection';
+import { useDevices } from '@/hooks/useDevices';
 const Index = () => {
   const { songs, isLoading } = useSongs();
   const { accessToken } = useSpotify();
+
+  const { devices, selectedDevice, setSelectedDevice } = useDevices(
+    accessToken!
+  );
+
   if (isLoading) {
     return (
       <SafeAreaView style={styles.background}>
@@ -24,11 +33,16 @@ const Index = () => {
             key={song.id}
             title={song.trackID}
             onPress={() => {
-              playTrack(song.trackID, accessToken!, '');
+              playTrack(song.trackID, accessToken!, selectedDevice!.id);
             }}
           />
         ))}
       </View>
+      <DeviceSelection
+        devices={devices}
+        selectedDevice={selectedDevice}
+        onSelect={setSelectedDevice}
+      />
     </SafeAreaView>
   );
 };

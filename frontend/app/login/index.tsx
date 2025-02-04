@@ -19,13 +19,7 @@ const Index = () => {
 
   const router = useRouter();
   const loginUser = async () => {
-    const isSpotifyValid = await validateSpotifyCredentials();
-
-    if (!isSpotifyValid) {
-      setError('Please authorize Spotify before continuing');
-      return;
-    }
-
+    await validateSpotifyCredentials();
     setError(undefined);
     setIsLoading(true);
     const [_, error] = await login(username, password);
@@ -87,12 +81,6 @@ const Index = () => {
         </View>
         {isLoading && <Spinner style={{ marginBottom: 20 }} />}
         {error && <Text style={styles.errorText}>Error: {error}</Text>}
-        <SpotifyAuthButton
-          style={{
-            marginBottom: 20,
-            width: '80%',
-          }}
-        />
         <Button
           style={{
             paddingLeft: 80,
