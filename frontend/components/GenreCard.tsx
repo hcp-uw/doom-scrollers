@@ -1,17 +1,27 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-const GenreCard: React.FC<{ genre: string }> = ({ genre }) => {
+const GenreCard: React.FC<{
+  genre: string;
+  selected?: boolean;
+  onPress?: () => void;
+}> = ({ genre, selected = false, onPress }) => {
   return (
-    <View style={styles.card}>
+    <TouchableOpacity
+      style={[
+        styles.card,
+        selected ? styles.selectedCard : styles.unselectedCard,
+      ]}
+      disabled={!onPress}
+      onPress={onPress}
+    >
       <Text style={styles.text}>{genre}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#272424',
     borderRadius: 10,
     padding: 10,
     margin: 10,
@@ -25,6 +35,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     fontFamily: 'Inter_700Bold',
+  },
+  selectedCard: {
+    backgroundColor: '#a568ff',
+  },
+  unselectedCard: {
+    backgroundColor: '#272424',
   },
 });
 

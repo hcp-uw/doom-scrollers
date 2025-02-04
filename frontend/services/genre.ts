@@ -35,3 +35,9 @@ export const deselectGenre = async (genreName: string) => {
   const data = await response.json();
   return data.genre as Genre;
 };
+
+export const getAllGenres = async (): Promise<Genre[]> => {
+  const response = await fetch(`${LOCAL_API_ENDPOINT}/genre/`);
+  const data = await response.json();
+  return data.genres as Genre[];
+};
