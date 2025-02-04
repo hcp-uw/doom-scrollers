@@ -1,15 +1,23 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import {
+  Dimensions,
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { useSongs } from '@/hooks/useSongs';
-import { Button } from '@/components/Button';
 import { playTrack } from '@/services/player';
 import { useSpotify } from '@/hooks/useSpotify';
-import { useState } from 'react';
-import { SpotifyDevice } from '@/types';
+import { useRef } from 'react';
 import DeviceSelection from '@/components/DeviceSelection';
 import { useDevices } from '@/hooks/useDevices';
+import SongView from '@/components/SongView';
 const Index = () => {
   const { songs, isLoading } = useSongs();
   const { accessToken } = useSpotify();
+
+  const currentSong = useRef<string | null>(null);
 
   const { devices, selectedDevice, setSelectedDevice } = useDevices(
     accessToken!
@@ -27,17 +35,34 @@ const Index = () => {
 
   return (
     <SafeAreaView style={styles.background}>
-      <View style={styles.container}>
-        {songs.map((song) => (
-          <Button
-            key={song.id}
-            title={song.trackID}
-            onPress={() => {
-              playTrack(song.trackID, accessToken!, selectedDevice!.id);
-            }}
-          />
-        ))}
-      </View>
+      {selectedDevice ? (
+        <FlatList
+          data={songs}
+          renderItem={({ item }) => (
+            <SongView accessToken={accessToken!} songId={item.trackID} />
+          )}
+          keyExtractor={(item) => item.trackID}
+          snapToAlignment="start"
+          decelerationRate="fast"
+          snapToInterval={Dimensions.get('window').height}
+          onViewableItemsChanged={({ viewableItems }) => {
+            if (
+              viewableItems[0].isViewable &&
+              currentSong.current !== viewableItems[0].item.trackID
+            ) {
+              currentSong.current = viewableItems[0].item.trackID;
+              playTrack(currentSong.current, accessToken!, selectedDevice.id);
+            }
+          }}
+          viewabilityConfig={{
+            itemVisiblePercentThreshold: 25,
+          }}
+        />
+      ) : (
+        <View style={styles.container}>
+          <Text style={styles.text}>Select a device please</Text>
+        </View>
+      )}
       <DeviceSelection
         devices={devices}
         selectedDevice={selectedDevice}

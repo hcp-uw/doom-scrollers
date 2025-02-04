@@ -30,3 +30,28 @@ export interface Song {
   trackID: string;
   genre: Genre;
 }
+
+export interface SpotifyArtist {
+  name: string;
+  id: string;
+}
+
+export interface SpotifyImage {
+  url: string;
+  width: number;
+  height: number;
+}
+
+export interface SpotifyAlbum {
+  name: string;
+  id: string;
+  images: SpotifyImage[];
+}
+
+export interface SpotifyTrack {
+  name: string;
+  id: string;
+  artists: SpotifyArtist[];
+  album: SpotifyAlbum;
+  duration_ms: number;
+}
