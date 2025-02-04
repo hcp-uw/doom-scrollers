@@ -19,3 +19,14 @@ export interface Genre {
   id: number;
   value: string;
 }
+
+export interface SpotifyDevice {
+  id: string;
+  name: string;
+}
+
+export interface Song {
+  id: number;
+  trackID: string;
+  genre: Genre;
+}
