@@ -1,7 +1,16 @@
 import { useTrack } from '@/hooks/useTrack';
 import { shortenString } from '@/utils/misc';
-import React from 'react';
-import { View, Text, StyleSheet, Dimensions, Image } from 'react-native';
+import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
+import { likeTrack, dislikeTrack } from '@/services/songs';
 
 type SongViewProps = {
   songId: string;
@@ -10,6 +19,8 @@ type SongViewProps = {
 
 const SongView: React.FC<SongViewProps> = ({ songId, accessToken }) => {
   const { track, isLoading } = useTrack(songId, accessToken);
+
+  const [status, setStatus] = useState<'liked' | 'disliked' | null>(null);
 
   if (isLoading) {
     return <Text>Loading...</Text>;
@@ -32,6 +43,34 @@ const SongView: React.FC<SongViewProps> = ({ songId, accessToken }) => {
             {artist.name}
           </Text>
         ))}
+        <View style={styles.iconContainer}>
+          <TouchableOpacity
+            style={styles.iconButton}
+            onPress={() => {
+              setStatus(status === 'disliked' ? null : 'disliked');
+              dislikeTrack(songId);
+            }}
+          >
+            <FontAwesome
+              name={status === 'disliked' ? 'thumbs-down' : 'thumbs-o-down'}
+              size={32}
+              color="#a568ff"
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.iconButton}
+            onPress={() => {
+              setStatus(status === 'liked' ? null : 'liked');
+              likeTrack(songId);
+            }}
+          >
+            <MaterialIcons
+              name={status === 'liked' ? 'favorite' : 'favorite-border'}
+              size={32}
+              color="#a568ff"
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -72,6 +111,18 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: 'Inter_400Regular',
     fontSize: 16,
+  },
+  iconContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    width: '100%',
+    marginTop: 30,
+  },
+  iconButton: {
+    marginHorizontal: 10,
+    backgroundColor: '#272424',
+    padding: 10,
+    borderRadius: 10,
   },
 });
 
