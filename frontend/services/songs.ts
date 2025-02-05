@@ -38,3 +38,13 @@ export const dislikeTrack = async (trackID: string) => {
   const data = await response.json();
   return data.success;
 };
+
+export const getLikedSongs = async () => {
+  const response = await fetch(`${LOCAL_API_ENDPOINT}/songs/me`, {
+    headers: {
+      Cookie: (await getCookie())!,
+    },
+  });
+  const data = await response.json();
+  return data.likedSongs as Song[];
+};
