@@ -53,7 +53,7 @@ export const saveSpotifyCredentials = async (
   await AsyncStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
   await AsyncStorage.setItem(
     EXPIRATION_KEY,
-    (Date.now() + expiration).toString()
+    (Date.now() + expiration * 1000).toString()
   );
   await AsyncStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
 };
