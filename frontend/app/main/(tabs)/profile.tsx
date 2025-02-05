@@ -14,11 +14,11 @@ import { Button } from '@/components/Button';
 import { useEffect, useState } from 'react';
 import { Genre } from '@/types';
 import { getUserGenres } from '@/services/genre';
-
+import { useRouter } from 'expo-router';
 const Profile = () => {
   const { user, error, isLoading } = useAuth();
   const [genres, setGenres] = useState<Genre[]>([]);
-
+  const router = useRouter();
   const fetchGenres = async () => {
     const userGenres = await getUserGenres();
     setGenres(userGenres);
@@ -116,6 +116,13 @@ const Profile = () => {
           style={{
             width: '90%',
           }}
+          onPress={() => router.navigate('/likedSongs')}
+          title="Liked Songs"
+        />
+        <Button
+          style={{
+            width: '90%',
+          }}
           title="Account Settings"
         />
         <Button
@@ -168,7 +175,7 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   footer: {
-    marginTop: 100,
+    marginTop: 50,
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
