@@ -35,10 +35,6 @@ const Index = () => {
     });
   }, []);
 
-  useEffect(() => {
-    console.log(genreSelection);
-  }, [genreSelection]);
-
   if (isLoading) {
     return (
       <SafeAreaView style={{ height: '100%', backgroundColor: 'black' }}>

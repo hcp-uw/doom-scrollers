@@ -57,8 +57,6 @@ export const GET = async (
     },
   });
 
-  console.log('Songs found:', songs.length);
-
   return NextResponse.json({
     songs: getRandomSegment(songs, parseInt(size)),
   });

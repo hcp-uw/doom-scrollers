@@ -37,7 +37,6 @@ export const fetchAccessToken = async (code: string) => {
     json.expires_in,
     json.refresh_token
   );
-  console.log(json);
   return {
     accessToken: json.access_token,
     expiration: json.expires_in,

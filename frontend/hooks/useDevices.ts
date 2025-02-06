@@ -9,7 +9,6 @@ export const useDevices = (accessToken: string) => {
   );
   const fetchDevices = async () => {
     const devices = await getSpotifyDevices();
-    console.log(devices);
     setDevices(devices);
   };
 

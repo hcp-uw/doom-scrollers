@@ -12,8 +12,6 @@ export const getCurrentSession = async (): Promise<
   });
   const data = await response.json();
 
-  console.log(data);
-
   if (data.error) {
     return [null, { error: data.error }];
   }
