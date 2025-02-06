@@ -16,7 +16,6 @@ export const playTrack = async (
     }),
   });
   const data = await response.json();
-  console.log(data);
 };
 
 export const getSpotifyDevices = async () => {
@@ -29,6 +28,5 @@ export const getSpotifyDevices = async () => {
   });
 
   const data = await response.json();
-  console.log(data);
   return data.devices as SpotifyDevice[];
 };
