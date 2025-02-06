@@ -14,7 +14,7 @@ import DeviceSelection from '@/components/DeviceSelection';
 import { useDevices } from '@/hooks/useDevices';
 import SongView from '@/components/SongView';
 const Index = () => {
-  const { songs, isLoading } = useSongs();
+  const { songs, isLoading, fetchSongs } = useSongs();
   const { accessToken } = useSpotify();
 
   const currentSong = useRef<string | null>(null);
@@ -44,7 +44,7 @@ const Index = () => {
               genre={item.genre}
             />
           )}
-          keyExtractor={(item) => item.trackID}
+          keyExtractor={(item, index) => index.toString()}
           snapToAlignment="start"
           decelerationRate="fast"
           snapToInterval={Dimensions.get('window').height}
@@ -59,6 +59,9 @@ const Index = () => {
           }}
           viewabilityConfig={{
             itemVisiblePercentThreshold: 25,
+          }}
+          onEndReached={() => {
+            fetchSongs();
           }}
         />
       ) : (
