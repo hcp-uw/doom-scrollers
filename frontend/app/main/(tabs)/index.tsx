@@ -19,9 +19,8 @@ const Index = () => {
 
   const currentSong = useRef<string | null>(null);
 
-  const { devices, selectedDevice, setSelectedDevice } = useDevices(
-    accessToken!
-  );
+  const { devices, selectedDevice, setSelectedDevice, fetchDevices } =
+    useDevices(accessToken!);
 
   if (isLoading) {
     return (
@@ -71,6 +70,7 @@ const Index = () => {
         devices={devices}
         selectedDevice={selectedDevice}
         onSelect={setSelectedDevice}
+        refreshDevices={fetchDevices}
       />
     </SafeAreaView>
   );

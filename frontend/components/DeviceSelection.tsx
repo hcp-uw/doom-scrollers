@@ -8,17 +8,20 @@ import {
   StyleSheet,
 } from 'react-native';
 import { SpotifyDevice } from '@/types';
+import { Button } from './Button';
 
 interface DeviceSelectionProps {
   devices: SpotifyDevice[];
   selectedDevice: SpotifyDevice | null;
   onSelect: (device: SpotifyDevice) => void;
+  refreshDevices: () => void;
 }
 
 const DeviceSelection: React.FC<DeviceSelectionProps> = ({
   devices,
   selectedDevice,
   onSelect,
+  refreshDevices,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -59,12 +62,17 @@ const DeviceSelection: React.FC<DeviceSelectionProps> = ({
                 </TouchableOpacity>
               )}
             />
-            <TouchableOpacity
-              style={styles.closeButton}
+            <Button
+              title="Close"
+              kind="secondary"
               onPress={() => setModalVisible(false)}
-            >
-              <Text style={styles.closeButtonText}>Close</Text>
-            </TouchableOpacity>
+            />
+            <Button
+              title="Refresh"
+              style={{ marginTop: 10 }}
+              onPress={() => refreshDevices()}
+              kind="secondary"
+            />
           </View>
         </View>
       </Modal>
@@ -125,6 +133,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   closeButtonText: {
+    fontSize: 16,
+    color: '#333',
+    fontFamily: 'Inter_600SemiBold',
+  },
+  refreshButton: {
+    marginTop: 13,
+    padding: 12,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  refreshButtonText: {
     fontSize: 16,
     color: '#333',
     fontFamily: 'Inter_600SemiBold',

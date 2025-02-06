@@ -7,15 +7,15 @@ export const useDevices = (accessToken: string) => {
   const [selectedDevice, setSelectedDevice] = useState<SpotifyDevice | null>(
     null
   );
+  const fetchDevices = async () => {
+    const devices = await getSpotifyDevices();
+    console.log(devices);
+    setDevices(devices);
+  };
 
   useEffect(() => {
-    const fetchDevices = async () => {
-      const devices = await getSpotifyDevices();
-      console.log(devices);
-      setDevices(devices);
-    };
     fetchDevices();
   }, [accessToken]);
 
-  return { devices, selectedDevice, setSelectedDevice };
+  return { devices, selectedDevice, setSelectedDevice, fetchDevices };
 };
