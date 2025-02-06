@@ -7,7 +7,7 @@ export const useAuth = () => {
   const [error, setError] = useState<string>();
   const [user, setUser] = useState<User>();
 
-  const fetchData = async () => {
+  const fetchUser = async () => {
     setIsLoading(true);
     setError(undefined);
     const [user, error] = await getCurrentSession();
@@ -23,8 +23,8 @@ export const useAuth = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    fetchUser();
   }, []);
 
-  return { user, error, isLoading };
+  return { user, error, isLoading, fetchUser };
 };
