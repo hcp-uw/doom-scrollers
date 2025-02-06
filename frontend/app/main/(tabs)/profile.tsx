@@ -15,10 +15,14 @@ import { useEffect, useState } from 'react';
 import { Genre } from '@/types';
 import { getUserGenres } from '@/services/genre';
 import { useRouter } from 'expo-router';
+import { AccountSettingsModal } from '@/components/AccountSettingsModal';
+
 const Profile = () => {
-  const { user, error, isLoading } = useAuth();
+  const { user, error, isLoading, fetchUser } = useAuth();
   const [genres, setGenres] = useState<Genre[]>([]);
   const router = useRouter();
+  const [accountSettingsModalVisible, setAccountSettingsModalVisible] =
+    useState(false);
   const fetchGenres = async () => {
     const userGenres = await getUserGenres();
     setGenres(userGenres);
@@ -124,6 +128,15 @@ const Profile = () => {
             width: '90%',
           }}
           title="Account Settings"
+          onPress={() => setAccountSettingsModalVisible(true)}
+        />
+        <AccountSettingsModal
+          visible={accountSettingsModalVisible}
+          onClose={() => {
+            setAccountSettingsModalVisible(false);
+            fetchUser();
+          }}
+          username={user?.username ?? ''}
         />
         <Button
           style={{
