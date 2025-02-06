@@ -14,7 +14,11 @@ export const GET = async () => {
       id: session.uid,
     },
     include: {
-      likedSongs: true,
+      likedSongs: {
+        include: {
+          genre: true,
+        },
+      },
     },
   });
 

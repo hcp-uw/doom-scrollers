@@ -13,8 +13,8 @@ const TrackCard: React.FC<TrackCardProps> = ({ rawTrack }) => {
 
   useEffect(() => {
     if (!accessToken) return;
-    hydrateTrackInfo(rawTrack.trackID, accessToken).then((track) =>
-      setTrack(track)
+    hydrateTrackInfo(rawTrack.trackID, rawTrack.genre, accessToken).then(
+      (track) => setTrack(track)
     );
   }, [accessToken]);
 

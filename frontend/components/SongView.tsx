@@ -11,14 +11,16 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { likeTrack, dislikeTrack } from '@/services/songs';
+import { Genre } from '@/types';
 
 type SongViewProps = {
   songId: string;
   accessToken: string;
+  genre: Genre;
 };
 
-const SongView: React.FC<SongViewProps> = ({ songId, accessToken }) => {
-  const { track, isLoading } = useTrack(songId, accessToken);
+const SongView: React.FC<SongViewProps> = ({ songId, accessToken, genre }) => {
+  const { track, isLoading } = useTrack(songId, genre, accessToken);
 
   const [status, setStatus] = useState<'liked' | 'disliked' | null>(null);
 

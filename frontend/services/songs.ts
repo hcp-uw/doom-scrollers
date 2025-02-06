@@ -12,6 +12,7 @@ export const getRecommendations = async (size: number = 10) => {
     }
   );
   const data = await response.json();
+  console.log('Recommendations', data);
   return data.songs as Song[];
 };
 

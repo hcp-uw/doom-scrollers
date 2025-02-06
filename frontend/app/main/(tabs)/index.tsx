@@ -39,7 +39,11 @@ const Index = () => {
         <FlatList
           data={songs}
           renderItem={({ item }) => (
-            <SongView accessToken={accessToken!} songId={item.trackID} />
+            <SongView
+              accessToken={accessToken!}
+              songId={item.trackID}
+              genre={item.genre}
+            />
           )}
           keyExtractor={(item) => item.trackID}
           snapToAlignment="start"

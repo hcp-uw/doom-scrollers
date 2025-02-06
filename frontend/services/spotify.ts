@@ -1,7 +1,8 @@
-import { SpotifyTrack, SpotifyArtist, SpotifyImage } from '@/types';
+import { SpotifyTrack, SpotifyArtist, SpotifyImage, Genre } from '@/types';
 
 export const hydrateTrackInfo = async (
   songId: string,
+  genre: Genre,
   accessToken: string
 ): Promise<SpotifyTrack> => {
   const response = await fetch(`https://api.spotify.com/v1/tracks/${songId}`, {
@@ -22,5 +23,6 @@ export const hydrateTrackInfo = async (
       images: data.album.images as SpotifyImage[],
     },
     duration_ms: data.duration_ms,
+    genre: genre.value,
   };
 };
