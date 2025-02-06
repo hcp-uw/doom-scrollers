@@ -1,7 +1,6 @@
 import { Button } from '@/components/Button';
-import { Header } from '@/components/Header';
 import { useRouter } from 'expo-router';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 import CurveTextSVG from '@/assets/svgs/heroText.svg';
 import HeroImageSVG from '@/assets/svgs/heroImage.svg';
 import HeroBorderSVG from '@/assets/svgs/heroBorder.svg';
