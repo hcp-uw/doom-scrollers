@@ -9,3 +9,7 @@ export const saveCookie = async (cookieValue: string) => {
 export const getCookie = async () => {
   return await SecureStore.getItemAsync(COOKIE_KEY);
 };
+
+export const deleteCookie = async () => {
+  await SecureStore.deleteItemAsync(COOKIE_KEY);
+};

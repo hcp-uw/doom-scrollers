@@ -16,6 +16,7 @@ import { Genre } from '@/types';
 import { getUserGenres } from '@/services/genre';
 import { useRouter } from 'expo-router';
 import { AccountSettingsModal } from '@/components/AccountSettingsModal';
+import { logout } from '@/services/auth/logout';
 
 const Profile = () => {
   const { user, error, isLoading, fetchUser } = useAuth();
@@ -143,6 +144,11 @@ const Profile = () => {
             width: '90%',
           }}
           title="Sign Out"
+          onPress={() => {
+            logout();
+            router.dismissAll();
+            router.replace('/');
+          }}
         />
       </View>
     </SafeAreaView>
