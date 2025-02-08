@@ -2,18 +2,15 @@ version: v1beta1
 kind: Spicepod
 name: agent-server
 
-embeddings:
-  - name: name_embeddings
-    from: huggingface:huggingface.co/sentence-transformers/all-MiniLM-L6-v2
+secrets:
+  - from: env
+    name: env
 
 datasets:
   - from: github:github.com/hcp-uw/doom-scrollers/files/main
     name: hcp.files
     params:
-      github_token: ${secrets:GITHUB_PERSONAL_TOKEN}
+      github_token: ${env:GITHUB_PERSONAL_TOKEN}
       include: '**/*.ts; **/*.tsx'
     acceleration:
       enabled: true
-    embeddings:
-      - column: name
-        use: name_embeddings

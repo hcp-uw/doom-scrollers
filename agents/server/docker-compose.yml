@@ -1,0 +1,22 @@
+services:
+  spiced:
+    build:
+      context: .
+      dockerfile: spice.Dockerfile
+    container_name: spiced_container
+    env_file:
+      - .env
+    ports:
+      - '50051:50051'
+      - '8090:8090'
+      - '9090:9090'
+  agent-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: agent-server
+    restart: always
+    depends_on:
+      - spiced
+    ports:
+      - '8089:8089'
