@@ -31,7 +31,8 @@ impl TestAgent for AgentHandler {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let address = "[::1]:8089".parse()?;
+    let address = "[::]:8089".parse()?;
+    println!("Server listening on: {}", address);
     let agent_service_handler = AgentHandler::default();
 
     let mut client = ClientBuilder::new()

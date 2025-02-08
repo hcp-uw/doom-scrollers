@@ -7,7 +7,6 @@ WORKDIR /app
 
 COPY . .
 
-RUN cargo build --release
 RUN cargo build --release --bin agent-server
 RUN cargo install --path .
 
