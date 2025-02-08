@@ -1,0 +1,17 @@
+syntax = "proto3";
+package agent_server;
+
+message TestMethodRequest {
+  string file_name = 1;
+  string prompt = 2;
+}
+
+message TestMethodResponse {
+  string status = 1;
+  string response = 2;
+  string error_message = 3;
+}
+
+service TestAgent {
+  rpc TestMethod (TestMethodRequest) returns (TestMethodResponse);
+}
