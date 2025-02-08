@@ -1,4 +1,5 @@
 use agent_service::{test_agent_server::TestAgentServer, TestMethodRequest, TestMethodResponse};
+use spiceai::{ClientBuilder, StreamExt};
 use tonic::{transport::Server, Request, Response, Status};
 
 use crate::agent_service::test_agent_server::TestAgent;
@@ -32,6 +33,28 @@ impl TestAgent for AgentHandler {
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let address = "[::1]:8089".parse()?;
     let agent_service_handler = AgentHandler::default();
+
+    let mut client = ClientBuilder::new()
+        .flight_url("http://spiced:50051")
+        .build()
+        .await
+        .unwrap();
+
+    let mut flight_data_stream = client
+        .query("SELECT content FROM hcp.files WHERE name=\'singleton.ts\'")
+        .await
+        .expect("Error executing query");
+
+    while let Some(batch) = flight_data_stream.next().await {
+        match batch {
+            Ok(batch) => {
+                /* process batch */
+                println!("{:?}", batch)
+            }
+            Err(_) => { /* handle error */ }
+        };
+    }
+
     println!("Listening...");
     Server::builder()
         .add_service(TestAgentServer::new(agent_service_handler))
