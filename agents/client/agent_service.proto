@@ -1,5 +1,6 @@
 syntax = "proto3";
 package agent;
+option go_package = "github.com/hcp-uw/doom-scrollers/agents/agent-client";
 
 message TestMethodRequest {
   string file_name = 1;
