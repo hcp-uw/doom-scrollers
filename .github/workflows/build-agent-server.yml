@@ -1,0 +1,35 @@
+name: Build gRPC Agent Server
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'agents/server/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'agents/server/**'
+  workflow_dispatch:
+
+env:
+  CARGO_INCREMENTAL: 0
+
+defaults:
+  run:
+    working-directory: ./agents/server
+
+jobs:
+  build-agent-server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v3
+      - name: Setup Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+      - name: Build agent server
+        run: cargo build --release
