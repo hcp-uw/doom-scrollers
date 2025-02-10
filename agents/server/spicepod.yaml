@@ -6,6 +6,10 @@ secrets:
   - from: env
     name: env
 
+embeddings:
+  - name: name_embeddings
+    from: huggingface:huggingface.co/sentence-transformers/all-MiniLM-L6-v2
+
 datasets:
   - from: github:github.com/hcp-uw/doom-scrollers/files/main
     name: hcp.files
@@ -14,3 +18,6 @@ datasets:
       include: '**/*.ts; **/*.tsx'
     acceleration:
       enabled: true
+    embeddings:
+      - column: name
+        use: name_embeddings

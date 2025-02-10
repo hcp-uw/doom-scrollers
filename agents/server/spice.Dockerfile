@@ -1,11 +1,9 @@
-FROM spiceai/spiceai:latest
+FROM spiceai/spiceai:latest-models
 
 # Copy the Spicepod configuration file
 COPY spicepod.yaml /app/spicepod.yaml
 
 WORKDIR /app
-
-# Spice runtime start-up arguments
 
 EXPOSE 8090
 EXPOSE 9090
