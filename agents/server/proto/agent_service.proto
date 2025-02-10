@@ -1,5 +1,5 @@
 syntax = "proto3";
-package agent_server;
+package agent;
 
 message TestMethodRequest {
   string file_name = 1;

@@ -1,4 +1,4 @@
-tonic::include_proto!("agent_server");
+tonic::include_proto!("agent");
 use crate::handler::test_agent::test_agent_server::TestAgent;
 use tonic::{Request, Response, Status};
 
