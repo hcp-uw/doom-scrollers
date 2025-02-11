@@ -15,7 +15,7 @@ import (
 var (
 	GuildID        = flag.String("guild", "", "Test guild ID. If not passed - bot registers commands globally")
 	BotToken       = flag.String("token", "", "Bot access token")
-	RemoveCommands = flag.Bool("rmcmd", false, "Remove all commands after shutting down or not")
+	RemoveCommands = flag.Bool("rmcmd", true, "Remove all commands after shutting down or not")
 )
 
 var s *discordgo.Session
@@ -30,7 +30,7 @@ func init() {
 	}
 
 	var gRPCInitializationError error
-	gRPCService, gRPCInitializationError = client.NewGRPCService("localhost:8089")
+	gRPCService, gRPCInitializationError = client.NewGRPCService("[::]:8089")
 
 	if gRPCInitializationError != nil {
 		log.Fatal(gRPCInitializationError)
@@ -43,10 +43,29 @@ var (
 			Name:        "hello",
 			Description: "hello",
 		},
+		{
+			Name:        "test",
+			Description: "Test the functionality of a file",
+			Options: []*discordgo.ApplicationCommandOption{
+				{
+					Type:        discordgo.ApplicationCommandOptionString,
+					Name:        "target",
+					Description: "File Descriptor",
+					Required:    true,
+				},
+				{
+					Type:        discordgo.ApplicationCommandOptionString,
+					Name:        "prompt",
+					Description: "Prompt",
+					Required:    true,
+				},
+			},
+		},
 	}
 
 	commandHandlers = map[string]types.CommandWithClient{
 		"hello": handlers.Hello,
+		"test":  handlers.Test,
 	}
 )
 
