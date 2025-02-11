@@ -12,7 +12,7 @@ pub fn get_client() -> Client<OpenAIConfig> {
 }
 
 fn get_initial_prompt() -> ChatCompletionRequestMessage {
-    let message = "In the dataset `spice.hcp.files`, find the file whose `content` column contains `// Test this file` . Generate a query for this and execute to find the contents. Now, write a unit test for the function that the comment refers to,  assuming that the unit test will be in the same file, so no need to import the original function for the unit tests. Use Jest to write your tests. Return only the code block containing the original function and the unit tests.".to_string();
+    let message = "In the dataset `spice.hcp.files`, find the file whose `content` column contains `// Test this file` . Generate a query for this and execute to find the contents. Now, write a unit test for the function that the comment refers to,  assuming that the unit test will be in the same file, so no need to import the original function for the unit tests. Use Jest to write your tests. Return only the code block containing the original function and the unit tests. Then, rewrite the code block to not rely on anything external.".to_string();
 
     ChatCompletionRequestSystemMessageArgs::default()
         .content(message)
@@ -32,6 +32,7 @@ fn convert_message_to_args(message: String) -> ChatCompletionRequestMessage {
 fn get_message_args(_file_name: String, _prompt: String) -> Vec<ChatCompletionRequestMessage> {
     let mut res: Vec<ChatCompletionRequestMessage> = vec![get_initial_prompt()];
 
+    res.push(convert_message_to_args(String::from("Format your final answer as valid JSON")));
 
     res
 }
