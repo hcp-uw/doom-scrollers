@@ -2,6 +2,8 @@ package main
 
 import (
 	"flag"
+	"github.com/hcp-uw/doom-scrollers/agents/agent-client/grpc/client"
+	"github.com/hcp-uw/doom-scrollers/agents/agent-client/types"
 	"log"
 	"os"
 	"os/signal"
@@ -10,42 +12,48 @@ import (
 	"github.com/hcp-uw/doom-scrollers/agents/agent-client/handlers"
 )
 
-
 var (
 	GuildID        = flag.String("guild", "", "Test guild ID. If not passed - bot registers commands globally")
 	BotToken       = flag.String("token", "", "Bot access token")
-	RemoveCommands = flag.Bool("rmcmd", true, "Remove all commands after shutdowning or not")
+	RemoveCommands = flag.Bool("rmcmd", false, "Remove all commands after shutting down or not")
 )
 
-var s *discordgo.Session;
+var s *discordgo.Session
+var gRPCService *client.GRPCService
 
 func init() {
-	flag.Parse();
-	var error error
-	s, error = discordgo.New("Bot " + *BotToken);
-	if error != nil {
-		log.Fatal(error)
+	flag.Parse()
+	var botInstantiationError error
+	s, botInstantiationError = discordgo.New("Bot " + *BotToken)
+	if botInstantiationError != nil {
+		log.Fatal(botInstantiationError)
+	}
+
+	var gRPCInitializationError error
+	gRPCService, gRPCInitializationError = client.NewGRPCService("localhost:8089")
+
+	if gRPCInitializationError != nil {
+		log.Fatal(gRPCInitializationError)
 	}
 }
 
 var (
-
-	commmands = []*discordgo.ApplicationCommand{
+	commands = []*discordgo.ApplicationCommand{
 		{
-			Name: "hello",
+			Name:        "hello",
 			Description: "hello",
 		},
 	}
 
-	commandHandlers = map[string]func(s *discordgo.Session, i *discordgo.InteractionCreate) {
+	commandHandlers = map[string]types.CommandWithClient{
 		"hello": handlers.Hello,
 	}
 )
 
 func init() {
-	s.AddHandler(func (s *discordgo.Session, i *discordgo.InteractionCreate) {
+	s.AddHandler(func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		if h, ok := commandHandlers[i.ApplicationCommandData().Name]; ok {
-			h(s, i)
+			h(gRPCService, s, i)
 		}
 	})
 }
@@ -60,8 +68,8 @@ func main() {
 	}
 
 	log.Println("Adding commands...")
-	registeredCommands := make([]*discordgo.ApplicationCommand, len(commmands))
-	for i, v := range commmands {
+	registeredCommands := make([]*discordgo.ApplicationCommand, len(commands))
+	for i, v := range commands {
 		cmd, err := s.ApplicationCommandCreate(s.State.User.ID, *GuildID, v)
 		if err != nil {
 			log.Panicf("Cannot create '%v' command: %v", v.Name, err)
@@ -69,7 +77,12 @@ func main() {
 		registeredCommands[i] = cmd
 	}
 
-	defer s.Close()
+	defer func(s *discordgo.Session) {
+		err := s.Close()
+		if err != nil {
+			log.Fatalf("Cannot close session: %v", err)
+		}
+	}(s)
 
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, os.Interrupt)
@@ -78,15 +91,6 @@ func main() {
 
 	if *RemoveCommands {
 		log.Println("Removing commands...")
-		// // We need to fetch the commands, since deleting requires the command ID.
-		// // We are doing this from the returned commands on line 375, because using
-		// // this will delete all the commands, which might not be desirable, so we
-		// // are deleting only the commands that we added.
-		// registeredCommands, err := s.ApplicationCommands(s.State.User.ID, *GuildID)
-		// if err != nil {
-		// 	log.Fatalf("Could not fetch registered commands: %v", err)
-		// }
-
 		for _, v := range registeredCommands {
 			err := s.ApplicationCommandDelete(s.State.User.ID, *GuildID, v.ID)
 			if err != nil {
@@ -95,8 +99,5 @@ func main() {
 		}
 	}
 
-
 	log.Println("Gracefully shutting down.")
 }
-
-
