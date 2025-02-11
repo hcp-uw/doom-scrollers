@@ -12,8 +12,7 @@ pub fn get_client() -> Client<OpenAIConfig> {
 }
 
 fn get_initial_prompt() -> ChatCompletionRequestMessage {
-    let message = "On the dataset `hcp.files`, find the file whose contents correspond best the description denoted by <--FILE--> and has the comment `// Test this file`` written above a function. 
-    Then, based on the content of that function that is labelled with `// Test this file`, answer the given prompt (denoted by <--PROMPT-->)".to_string();
+    let message = "In the dataset `spice.hcp.files`, find the file whose `content` column contains `// Test this file` . Generate a query for this and execute to find the contents. Now, write a unit test for the function that the comment refers to,  assuming that the unit test will be in the same file, so no need to import the original function for the unit tests. Use Jest to write your tests. Return only the code block containing the original function and the unit tests.".to_string();
 
     ChatCompletionRequestSystemMessageArgs::default()
         .content(message)
@@ -30,15 +29,9 @@ fn convert_message_to_args(message: String) -> ChatCompletionRequestMessage {
         .into()
 }
 
-fn get_message_args(file_name: String, prompt: String) -> Vec<ChatCompletionRequestMessage> {
+fn get_message_args(_file_name: String, _prompt: String) -> Vec<ChatCompletionRequestMessage> {
     let mut res: Vec<ChatCompletionRequestMessage> = vec![get_initial_prompt()];
 
-    res.push(convert_message_to_args(format!(
-        "<--FILE-->\n{}",
-        file_name
-    )));
-
-    res.push(convert_message_to_args(format!("<--PROMPT-->\n{}", prompt)));
 
     res
 }
