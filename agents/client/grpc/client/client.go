@@ -33,5 +33,5 @@ func (s *GRPCService) SendMethodForTesting(fileName string, prompt string) (stri
 		return "Error calling `TestMethod` with gRPC", err
 	}
 
-	return response.String(), nil
+	return response.Response, nil
 }

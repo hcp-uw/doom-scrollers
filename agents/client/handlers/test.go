@@ -14,30 +14,25 @@ func Test(service *client.GRPCService, s *discordgo.Session, i *discordgo.Intera
 	for _, opt := range options {
 		optionMap[opt.Name] = opt
 	}
-
-	response, grpcCallError := service.SendMethodForTesting(optionMap["target"].StringValue(), optionMap["prompt"].StringValue())
-	if grpcCallError != nil {
-		log.Fatal(grpcCallError)
-		return
-	}
-
-	embed := &discordgo.MessageEmbed{
-		Title:       response,
-		Description: response,
-		Color:       0x0000ff,
-	}
-
 	err := s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-		Type: discordgo.InteractionResponseChannelMessageWithSource,
-		Data: &discordgo.InteractionResponseData{
-			Embeds: []*discordgo.MessageEmbed{embed},
-		},
+		Type: discordgo.InteractionResponseDeferredChannelMessageWithSource,
 	})
 
 	if err != nil {
 		log.Fatalf("Failed to process `Test` command: %v", err)
 		return
 	}
+	response, grpcCallError := service.SendMethodForTesting(optionMap["target"].StringValue(), optionMap["prompt"].StringValue())
+	if grpcCallError != nil {
+		log.Fatal(grpcCallError)
+		return
+	}
+
+	log.Println(response)
+
+	s.FollowupMessageCreate(i.Interaction, true, &discordgo.WebhookParams{
+		Content: response,
+	})
 
 	log.Print("Processed command `Test`.")
 }
