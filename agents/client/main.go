@@ -7,6 +7,7 @@ import (
 	"os/signal"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/hcp-uw/doom-scrollers/agents/agent-client/handlers"
 )
 
 
@@ -37,24 +38,7 @@ var (
 	}
 
 	commandHandlers = map[string]func(s *discordgo.Session, i *discordgo.InteractionCreate) {
-		"hello": func (s *discordgo.Session, i *discordgo.InteractionCreate) {
-			log.Print("Processing command hello...")
-
-			embed := &discordgo.MessageEmbed{
-				Title: "Hello",
-				Description: "Hello",
-				Color: 0x00ff00,
-			}
-
-			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-				Type: discordgo.InteractionResponseChannelMessageWithSource,
-				Data: &discordgo.InteractionResponseData{
-					Embeds: []*discordgo.MessageEmbed{embed},
-				},
-			})
-
-			log.Print("Processed command hello.")
-		},
+		"hello": handlers.Hello,
 	}
 )
 
@@ -110,6 +94,7 @@ func main() {
 			}
 		}
 	}
+
 
 	log.Println("Gracefully shutting down.")
 }
