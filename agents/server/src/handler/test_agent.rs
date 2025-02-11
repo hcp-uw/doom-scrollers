@@ -25,14 +25,12 @@ impl TestAgent for AgentHandler {
         let model_response =
             make_request(client, request_data.file_name, request_data.prompt).await;
 
-        println!("Got model response");
-
         let response = match &model_response.choices[0].message.content {
             Some(message) => message,
             None => &String::from("No response provided"),
         };
 
-        println!("Got model response");
+        println!("{}", response);
 
         let reply = TestMethodResponse {
             status: "success".to_string(),

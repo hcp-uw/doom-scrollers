@@ -14,12 +14,12 @@ func Test(service *client.GRPCService, s *discordgo.Session, i *discordgo.Intera
 	for _, opt := range options {
 		optionMap[opt.Name] = opt
 	}
-	err := s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+	deferredResponseError := s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 		Type: discordgo.InteractionResponseDeferredChannelMessageWithSource,
 	})
 
-	if err != nil {
-		log.Fatalf("Failed to process `Test` command: %v", err)
+	if deferredResponseError != nil {
+		log.Fatalf("Failed to process `Test` command: %v", deferredResponseError)
 		return
 	}
 	response, grpcCallError := service.SendMethodForTesting(optionMap["target"].StringValue(), optionMap["prompt"].StringValue())
@@ -28,11 +28,12 @@ func Test(service *client.GRPCService, s *discordgo.Session, i *discordgo.Intera
 		return
 	}
 
-	log.Println(response)
-
-	s.FollowupMessageCreate(i.Interaction, true, &discordgo.WebhookParams{
+	_, followUpMessageError := s.FollowupMessageCreate(i.Interaction, true, &discordgo.WebhookParams{
 		Content: response,
 	})
+	if followUpMessageError != nil {
+		return
+	}
 
 	log.Print("Processed command `Test`.")
 }

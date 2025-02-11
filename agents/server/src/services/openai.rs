@@ -12,7 +12,8 @@ pub fn get_client() -> Client<OpenAIConfig> {
 }
 
 fn get_initial_prompt() -> ChatCompletionRequestMessage {
-    let message = "Run the query `select content from hcp.files where name = FILE`, where FILE is provided to in a subsequent message denoted by <--FILE-->. Return only the content formatted as a code block".to_string();
+    let message = "On the dataset `hcp.files`, find the file whose contents correspond best the description denoted by <--FILE--> and has the comment `// Test this file`` written above a function. 
+    Then, based on the content of that function that is labelled with `// Test this file`, answer the given prompt (denoted by <--PROMPT-->)".to_string();
 
     ChatCompletionRequestSystemMessageArgs::default()
         .content(message)
@@ -29,7 +30,7 @@ fn convert_message_to_args(message: String) -> ChatCompletionRequestMessage {
         .into()
 }
 
-fn get_message_args(file_name: String, _prompt: String) -> Vec<ChatCompletionRequestMessage> {
+fn get_message_args(file_name: String, prompt: String) -> Vec<ChatCompletionRequestMessage> {
     let mut res: Vec<ChatCompletionRequestMessage> = vec![get_initial_prompt()];
 
     res.push(convert_message_to_args(format!(
@@ -37,7 +38,7 @@ fn get_message_args(file_name: String, _prompt: String) -> Vec<ChatCompletionReq
         file_name
     )));
 
-    //    res.push(convert_message_to_args(format!("<--PROMPT-->\n{}", prompt)));
+    res.push(convert_message_to_args(format!("<--PROMPT-->\n{}", prompt)));
 
     res
 }
