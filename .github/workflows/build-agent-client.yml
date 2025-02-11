@@ -1,0 +1,27 @@
+name: Build Agent Client
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: ./agents/client
+
+jobs:
+  build-agent-client:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.23.6
+      - name: Install dependencies
+        run: go install
+      - name: Build project
+        run: go build .
