@@ -1,7 +1,8 @@
 use handler::test_agent::{test_agent_server::TestAgentServer, AgentHandler};
 use tonic::transport::Server;
 
-pub mod handler;
+mod handler;
+mod services;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
