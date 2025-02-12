@@ -13,6 +13,7 @@ import { useRef } from 'react';
 import DeviceSelection from '@/components/DeviceSelection';
 import { useDevices } from '@/hooks/useDevices';
 import SongView from '@/components/SongView';
+
 const Index = () => {
   const { songs, isLoading, fetchSongs } = useSongs();
   const { accessToken } = useSpotify();
@@ -21,16 +22,6 @@ const Index = () => {
 
   const { devices, selectedDevice, setSelectedDevice, fetchDevices } =
     useDevices(accessToken!);
-
-  if (isLoading) {
-    return (
-      <SafeAreaView style={styles.background}>
-        <View style={styles.container}>
-          <Text style={styles.text}>Loading...</Text>
-        </View>
-      </SafeAreaView>
-    );
-  }
 
   return (
     <SafeAreaView style={styles.background}>

@@ -1,10 +1,20 @@
 import React from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  StyleProp,
+  ViewStyle,
+} from 'react-native';
 import CurveTextHeaderSVG from '@/assets/svgs/curveText.svg';
 
-const CurveTextHeader: React.FC = () => {
+interface Props {
+  additionalStyles?: StyleProp<ViewStyle>;
+}
+
+const CurveTextHeader: React.FC<Props> = ({ additionalStyles }) => {
   return (
-    <View style={styles.header}>
+    <View style={{ ...styles.header, ...(additionalStyles as object) }}>
       <CurveTextHeaderSVG style={{ marginLeft: 20, marginBottom: 10 }} />
     </View>
   );

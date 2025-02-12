@@ -8,7 +8,7 @@ import {
   StyleProp,
 } from 'react-native';
 interface Props {
-  label: string;
+  label?: string;
   placeholder: string;
   style?: StyleProp<ViewStyle>;
   kind?: 'text' | 'password';
@@ -28,7 +28,7 @@ export const InputField: React.FC<Props> = ({
         ...(style as object),
       }}
     >
-      <Text style={styles.label}>{label}</Text>
+      {label && <Text style={styles.label}>{label}</Text>}
       <TextInput
         style={styles.input}
         placeholder={placeholder}
