@@ -13,7 +13,7 @@ export const hydrateTrackInfo = async (
 
   const data = await response.json();
 
-  return {
+  const res = {
     name: data.name,
     id: data.id,
     artists: data.artists as SpotifyArtist[],
@@ -25,4 +25,5 @@ export const hydrateTrackInfo = async (
     duration_ms: data.duration_ms,
     genre: genre.value,
   };
+  return res;
 };

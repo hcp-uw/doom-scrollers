@@ -17,9 +17,14 @@ export const GET = async (
       genre: {
         value: {
           contains: query,
+          mode: 'insensitive',
         },
       },
     },
+    include: {
+      genre: true,
+    },
+    take: 10,
   });
 
   return NextResponse.json({

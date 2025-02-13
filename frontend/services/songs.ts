@@ -48,3 +48,9 @@ export const getLikedSongs = async () => {
   const data = await response.json();
   return data.likedSongs as Song[];
 };
+
+export const searchSongs = async (q: string) => {
+  const response = await fetch(`${LOCAL_API_ENDPOINT}/songs/search?q=${q}`);
+  const data = await response.json();
+  return data.songs as Song[];
+};
