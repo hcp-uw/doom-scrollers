@@ -24,7 +24,7 @@ export const GET = async (
     include: {
       genre: true,
     },
-    take: 10,
+    take: 50,
   });
 
   return NextResponse.json({
