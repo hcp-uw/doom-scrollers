@@ -1,29 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, ViewStyle } from 'react-native';
 import { Song, SpotifyTrack } from '../types';
 import { hydrateTrackInfo } from '@/services/spotify';
 import { useSpotify } from '@/hooks/useSpotify';
+import { StyleProp } from 'react-native';
 interface TrackCardProps {
   rawTrack: Song;
+  style?: StyleProp<ViewStyle>;
 }
 
-const TrackCard: React.FC<TrackCardProps> = ({ rawTrack }) => {
+const TrackCard: React.FC<TrackCardProps> = ({ rawTrack, style }) => {
   const { accessToken } = useSpotify();
   const [track, setTrack] = useState<SpotifyTrack>();
 
   useEffect(() => {
     if (!accessToken) return;
-    hydrateTrackInfo(rawTrack.trackID, rawTrack.genre, accessToken).then(
-      (track) => setTrack(track)
-    );
+    (async () => {
+      const res = await hydrateTrackInfo(
+        rawTrack.trackID,
+        rawTrack.genre,
+        accessToken
+      );
+      setTrack(res);
+    })();
   }, [accessToken]);
 
-  if (!track) return null;
+  if (!track) {
+    return null;
+  }
 
   const artistNames = track.artists.map((artist) => artist.name).join(', ');
 
   return (
-    <View style={styles.card}>
+    <View style={[styles.card, style]}>
       <Image
         source={{ uri: track.album.images?.[0]?.url }}
         style={styles.albumCover}
