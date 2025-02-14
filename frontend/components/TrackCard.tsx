@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet, ViewStyle } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  ViewStyle,
+  TouchableOpacity,
+} from 'react-native';
 import { Song, SpotifyTrack } from '../types';
 import { hydrateTrackInfo } from '@/services/spotify';
 import { useSpotify } from '@/hooks/useSpotify';
 import { StyleProp } from 'react-native';
+import PlaylistSelectionModal from './PlaylistSelectionModal';
+import { addSongToPlaylist } from '@/services/playlist';
 interface TrackCardProps {
   rawTrack: Song;
   style?: StyleProp<ViewStyle>;
@@ -12,6 +21,7 @@ interface TrackCardProps {
 const TrackCard: React.FC<TrackCardProps> = ({ rawTrack, style }) => {
   const { accessToken } = useSpotify();
   const [track, setTrack] = useState<SpotifyTrack>();
+  const [isPlaylistModalVisible, setIsPlaylistModalVisible] = useState(false);
 
   useEffect(() => {
     if (!accessToken) return;
@@ -32,7 +42,12 @@ const TrackCard: React.FC<TrackCardProps> = ({ rawTrack, style }) => {
   const artistNames = track.artists.map((artist) => artist.name).join(', ');
 
   return (
-    <View style={[styles.card, style]}>
+    <TouchableOpacity
+      style={[styles.card, style]}
+      onPress={() => {
+        setIsPlaylistModalVisible(true);
+      }}
+    >
       <Image
         source={{ uri: track.album.images?.[0]?.url }}
         style={styles.albumCover}
@@ -45,7 +60,15 @@ const TrackCard: React.FC<TrackCardProps> = ({ rawTrack, style }) => {
           {artistNames}
         </Text>
       </View>
-    </View>
+      <PlaylistSelectionModal
+        visible={isPlaylistModalVisible}
+        onClose={() => setIsPlaylistModalVisible(false)}
+        onSelect={(playlist) => {
+          addSongToPlaylist(rawTrack.trackID, playlist.id);
+          setIsPlaylistModalVisible(false);
+        }}
+      />
+    </TouchableOpacity>
   );
 };
 

@@ -23,7 +23,7 @@ export const PUT = async (req: NextRequest) => {
   });
 
   if (!track) {
-    return NextResponse.json({ error: "Track doesn't exist" });
+    return NextResponse.json({ error: "Track doesn't exist" }, { status: 404 });
   }
 
   await prisma.playlist.update({
@@ -32,7 +32,9 @@ export const PUT = async (req: NextRequest) => {
     },
     data: {
       songs: {
-        connect: track,
+        connect: {
+          trackID,
+        },
       },
     },
   });
