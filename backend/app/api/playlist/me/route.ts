@@ -13,6 +13,9 @@ export const GET = async () => {
     where: {
       authorId: session.uid!,
     },
+    include: {
+      songs: true,
+    },
   });
 
   return NextResponse.json({ playlists });

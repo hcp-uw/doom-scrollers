@@ -56,3 +56,9 @@ export interface SpotifyTrack {
   duration_ms: number;
   genre: string;
 }
+
+export interface Playlist {
+  id: number;
+  name: string;
+  songs: Song[];
+}
