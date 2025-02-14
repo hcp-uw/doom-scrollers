@@ -24,6 +24,7 @@ model User {
   preferences Genre[]
   likedSongs Song[]
   seenSongs Song[] @relation("SongSeenBy")
+  likedPlaylists PlaylistLike[]
 }
 
 model Song {
@@ -34,6 +35,22 @@ model Song {
   genreId Int?
   genre Genre? @relation(fields: [genreId], references: [id])
   seenBy User[] @relation("SongSeenBy")
+  playlists Playlist[] @relation("SongInPlaylist")
 } 
+
+model Playlist {
+  id Int @id @default(autoincrement())
+  name String
+  songs Song[] @relation("SongInPlaylist")
+  likes PlaylistLike[]
+}
+
+model PlaylistLike {
+  id Int @id @default(autoincrement())
+  playlist Playlist @relation(fields: [playlistId], references: [id])
+  playlistId Int
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+}
 
 
