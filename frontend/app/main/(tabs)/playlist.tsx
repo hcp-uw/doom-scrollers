@@ -30,7 +30,6 @@ export default function Playlist() {
             key={playlist.id}
             style={styles.playlistCard}
             onPress={() => {
-              console.log(`/playlists/${playlist.id}`);
               router.push(`/playlists/${playlist.id}`);
             }}
           >
