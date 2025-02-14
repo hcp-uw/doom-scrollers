@@ -12,7 +12,7 @@ interface CreatePlaylistResponse {
   playlist: Playlist;
 }
 
-export const PUT = async (
+export const POST = async (
   req: NextRequest
 ): Promise<NextResponse<CreatePlaylistResponse | ErrorResponse>> => {
   const { playlistName }: CreatePlaylistRequest = await req.json();
