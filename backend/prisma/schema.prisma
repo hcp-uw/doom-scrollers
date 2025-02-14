@@ -25,6 +25,7 @@ model User {
   likedSongs Song[]
   seenSongs Song[] @relation("SongSeenBy")
   likedPlaylists PlaylistLike[]
+  playlists Playlist[]
 }
 
 model Song {
@@ -43,6 +44,8 @@ model Playlist {
   name String
   songs Song[] @relation("SongInPlaylist")
   likes PlaylistLike[]
+  author User @relation(fields: [authorId], references: [id])
+  authorId Int
 }
 
 model PlaylistLike {
