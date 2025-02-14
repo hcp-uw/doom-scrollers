@@ -1,4 +1,5 @@
 import { LOCAL_API_ENDPOINT } from '@/constants';
+import { Playlist } from '@/types';
 import { getCookie } from '@/utils/cookies';
 
 export const addSongToPlaylist = async (songId: string, playlistId: string) => {
@@ -11,7 +12,7 @@ export const addSongToPlaylist = async (songId: string, playlistId: string) => {
   });
 
   const data = await response.json();
-  return data;
+  return !!data.success;
 };
 
 export const removeSongFromPlaylist = async (
@@ -27,7 +28,7 @@ export const removeSongFromPlaylist = async (
   });
 
   const data = await response.json();
-  return data;
+  return !!data.success;
 };
 
 export const getPlaylists = async () => {
@@ -38,5 +39,18 @@ export const getPlaylists = async () => {
   });
 
   const data = await response.json();
-  return data;
+  return data.playlists as Playlist[];
+};
+
+export const createPlaylist = async (name: string) => {
+  const response = await fetch(`${LOCAL_API_ENDPOINT}/playlist/create`, {
+    method: 'POST',
+    headers: {
+      Cookie: (await getCookie())!,
+    },
+    body: JSON.stringify({ name }),
+  });
+
+  const data = await response.json();
+  return data.playlist as Playlist;
 };

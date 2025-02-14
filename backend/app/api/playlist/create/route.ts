@@ -33,6 +33,9 @@ export const POST = async (
         },
       },
     },
+    include: {
+      songs: true,
+    },
   });
 
   return NextResponse.json({ playlist });
