@@ -16,7 +16,11 @@ export const GET = async (req: NextRequest) => {
   const playlist = await prisma.playlist.findUnique({
     where: { id: parseInt(id!) },
     include: {
-      songs: true,
+      songs: {
+        include: {
+          genre: true,
+        },
+      },
       author: true,
     },
   });

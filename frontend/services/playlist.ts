@@ -54,3 +54,16 @@ export const createPlaylist = async (name: string) => {
   const data = await response.json();
   return data.playlist as Playlist;
 };
+
+export const getSpecificPlaylist = async (id: number) => {
+  const response = await fetch(`${LOCAL_API_ENDPOINT}/playlist?id=${id}`, {
+    headers: {
+      Cookie: (await getCookie())!,
+    },
+  });
+
+  const data = await response.json();
+
+  console.log(data);
+  return data as Playlist;
+};
