@@ -1,6 +1,7 @@
 tonic::include_proto!("agent");
+
 use crate::{
-    handler::test_agent::test_agent_server::TestAgent,
+    handler::{test_agent::test_agent_server::TestAgent, types::TestAgentJSONResponse},
     services::openai::{get_client, make_request},
 };
 use tonic::{Request, Response, Status};
@@ -22,8 +23,12 @@ impl TestAgent for AgentHandler {
 
         println!("Awaiting model response");
 
-        let model_response =
-            make_request(client, request_data.file_name, request_data.prompt).await;
+        let model_response = make_request(
+            client,
+            request_data.file_name.as_str(),
+            request_data.prompt.as_str(),
+        )
+        .await;
 
         let response = match &model_response.choices[0].message.content {
             Some(message) => message,
@@ -32,10 +37,25 @@ impl TestAgent for AgentHandler {
 
         println!("{}", response);
 
+        let mut err = String::new();
+        let parsed_response: TestAgentJSONResponse = if let Ok(val) = serde_json::from_str(response)
+        {
+            val
+        } else {
+            err = "Unable to parse JSON".to_string();
+            TestAgentJSONResponse::default()
+        };
+
+        println!("{:?}", parsed_response);
+
         let reply = TestMethodResponse {
-            status: "success".to_string(),
-            response: response.to_string(),
-            error_message: "".to_string(),
+            status: if err.is_empty() {
+                "error".to_string()
+            } else {
+                "success".to_string()
+            },
+            response: parsed_response.code,
+            error_message: err,
         };
 
         Ok(Response::new(reply))
