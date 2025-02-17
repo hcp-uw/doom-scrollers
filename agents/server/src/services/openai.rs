@@ -11,48 +11,48 @@ pub fn get_client() -> Client<OpenAIConfig> {
     Client::with_config(OpenAIConfig::new().with_api_base("http://localhost:8090/v1"))
 }
 
-fn get_initial_prompt() -> ChatCompletionRequestMessage {
-    let message = "In the dataset `spice.hcp.files`, find the file whose `content` column contains `// Test this file` . Generate a query for this and execute to find the contents. Now, write a unit test for the function that the comment refers to,  assuming that the unit test will be in the same file, so no need to import the original function for the unit tests. Use Jest to write your tests. Return only the code block containing the original function and the unit tests. Then, rewrite the code block to not rely on anything external.".to_string();
-
-    ChatCompletionRequestSystemMessageArgs::default()
-        .content(message)
-        .build()
-        .unwrap()
-        .into()
-}
-
 fn convert_message_to_args(message: String) -> ChatCompletionRequestMessage {
     ChatCompletionRequestSystemMessageArgs::default()
         .content(message)
         .build()
-        .unwrap()
+        .expect("Failed to initialize chat message")
         .into()
 }
 
-fn get_message_args(_file_name: String, _prompt: String) -> Vec<ChatCompletionRequestMessage> {
-    let mut res: Vec<ChatCompletionRequestMessage> = vec![get_initial_prompt()];
+fn get_message_args(file_name: &str, prompt: &str) -> Vec<ChatCompletionRequestMessage> {
+    let mut res: Vec<ChatCompletionRequestMessage> = vec![];
 
-    res.push(convert_message_to_args(String::from("Format your final answer as valid JSON")));
+    res.push(convert_message_to_args(format!(
+        "<--FILE_NAME-->\n{file_name}\n<--END-FILE-->",
+    )));
+
+    res.push(convert_message_to_args(format!(
+        "<--PROMPT-->\n{prompt}\n<--END-PROMPT-->"
+    )));
 
     res
 }
 
-fn get_request_params(file_name: String, prompt: String) -> CreateChatCompletionRequest {
+fn get_request_params(file_name: &str, prompt: &str) -> CreateChatCompletionRequest {
     let processed_messages = get_message_args(file_name, prompt);
 
     CreateChatCompletionRequestArgs::default()
         .model("openai")
         .messages(processed_messages)
         .build()
-        .unwrap()
+        .expect("Failed to retrieve chat request parameters")
 }
 
 pub async fn make_request(
     client: Client<OpenAIConfig>,
-    file_name: String,
-    prompt: String,
+    file_name: &str,
+    prompt: &str,
 ) -> CreateChatCompletionResponse {
     let params = get_request_params(file_name, prompt);
 
-    client.chat().create(params).await.unwrap()
+    client
+        .chat()
+        .create(params)
+        .await
+        .expect("Failed to make request to local Spice agent")
 }
