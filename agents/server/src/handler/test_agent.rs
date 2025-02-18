@@ -41,9 +41,6 @@ impl TestAgent for AgentHandler {
             TestAgentJSONResponse::default()
         };
 
-        println!("{:?}", parsed_response);
-        println!("Err: {}", err.is_empty());
-
         let reply = TestMethodResponse {
             status: if err.is_empty() {
                 "success".to_string()
