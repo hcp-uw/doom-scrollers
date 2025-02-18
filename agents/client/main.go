@@ -2,11 +2,12 @@ package main
 
 import (
 	"flag"
-	"github.com/hcp-uw/doom-scrollers/agents/agent-client/grpc/client"
-	"github.com/hcp-uw/doom-scrollers/agents/agent-client/types"
 	"log"
 	"os"
 	"os/signal"
+
+	"github.com/hcp-uw/doom-scrollers/agents/agent-client/grpc/client"
+	"github.com/hcp-uw/doom-scrollers/agents/agent-client/types"
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/hcp-uw/doom-scrollers/agents/agent-client/handlers"
@@ -51,12 +52,6 @@ var (
 					Type:        discordgo.ApplicationCommandOptionString,
 					Name:        "target",
 					Description: "File Descriptor",
-					Required:    true,
-				},
-				{
-					Type:        discordgo.ApplicationCommandOptionString,
-					Name:        "prompt",
-					Description: "Prompt",
 					Required:    true,
 				},
 			},

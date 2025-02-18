@@ -4,7 +4,6 @@ option go_package = "github.com/hcp-uw/doom-scrollers/agents/agent-client";
 
 message TestMethodRequest {
   string file_name = 1;
-  string prompt = 2;
 }
 
 message TestMethodResponse {

@@ -19,22 +19,18 @@ fn convert_message_to_args(message: String) -> ChatCompletionRequestMessage {
         .into()
 }
 
-fn get_message_args(file_name: &str, prompt: &str) -> Vec<ChatCompletionRequestMessage> {
+fn get_message_args(file_name: &str) -> Vec<ChatCompletionRequestMessage> {
     let mut res: Vec<ChatCompletionRequestMessage> = vec![];
 
     res.push(convert_message_to_args(format!(
-        "<--FILE_NAME-->\n{file_name}\n<--END-FILE-->",
-    )));
-
-    res.push(convert_message_to_args(format!(
-        "<--PROMPT-->\n{prompt}\n<--END-PROMPT-->"
+        "<--FILE-->\n{file_name}\n<--END-FILE-->",
     )));
 
     res
 }
 
-fn get_request_params(file_name: &str, prompt: &str) -> CreateChatCompletionRequest {
-    let processed_messages = get_message_args(file_name, prompt);
+fn get_request_params(file_name: &str) -> CreateChatCompletionRequest {
+    let processed_messages = get_message_args(file_name);
 
     CreateChatCompletionRequestArgs::default()
         .model("openai")
@@ -46,9 +42,8 @@ fn get_request_params(file_name: &str, prompt: &str) -> CreateChatCompletionRequ
 pub async fn make_request(
     client: Client<OpenAIConfig>,
     file_name: &str,
-    prompt: &str,
 ) -> CreateChatCompletionResponse {
-    let params = get_request_params(file_name, prompt);
+    let params = get_request_params(file_name);
 
     client
         .chat()

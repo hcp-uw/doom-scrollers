@@ -2,6 +2,8 @@ package client
 
 import (
 	"context"
+	"log"
+
 	agent_client "github.com/hcp-uw/doom-scrollers/agents/agent-client/agent_service"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -23,15 +25,17 @@ func NewGRPCService(connectionString string) (*GRPCService, error) {
 	}, nil
 }
 
-func (s *GRPCService) SendMethodForTesting(fileName string, prompt string) (string, error) {
+func (s *GRPCService) SendMethodForTesting(fileName string) (string, error) {
 	response, err := s.grpcClient.TestMethod(context.Background(), &agent_client.TestMethodRequest{
 		FileName: fileName,
-		Prompt:   prompt,
 	})
+
+	log.Println(response);
 
 	if err != nil {
 		return "Error calling `TestMethod` with gRPC", err
 	}
 
-	return response.Response, nil
+
+	return response.GetResponse(), nil
 }

@@ -23,12 +23,7 @@ impl TestAgent for AgentHandler {
 
         println!("Awaiting model response");
 
-        let model_response = make_request(
-            client,
-            request_data.file_name.as_str(),
-            request_data.prompt.as_str(),
-        )
-        .await;
+        let model_response = make_request(client, request_data.file_name.as_str()).await;
 
         let response = match &model_response.choices[0].message.content {
             Some(message) => message,
@@ -46,13 +41,11 @@ impl TestAgent for AgentHandler {
             TestAgentJSONResponse::default()
         };
 
-        println!("{:?}", parsed_response);
-
         let reply = TestMethodResponse {
             status: if err.is_empty() {
-                "error".to_string()
-            } else {
                 "success".to_string()
+            } else {
+                "error".to_string()
             },
             response: parsed_response.code,
             error_message: err,

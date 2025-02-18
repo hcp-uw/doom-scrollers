@@ -3,7 +3,6 @@ package agent;
 
 message TestMethodRequest {
   string file_name = 1;
-  string prompt = 2;
 }
 
 message TestMethodResponse {
