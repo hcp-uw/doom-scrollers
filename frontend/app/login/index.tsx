@@ -6,10 +6,7 @@ import { InputField } from '@/components/InputField';
 import { Button } from '@/components/Button';
 import { Spinner } from '@/components/Spinner';
 import { useRouter } from 'expo-router';
-import {
-  getSpotifyCredentials,
-  validateSpotifyCredentials,
-} from '@/utils/spotify';
+import { validateSpotifyCredentials } from '@/utils/spotify';
 import { CheckBox } from 'react-native-elements';
 import { login } from '@/services/auth/login';
 import LoginPageSVG from '@/assets/svgs/loginPage.svg';

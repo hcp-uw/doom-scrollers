@@ -78,7 +78,7 @@ const SongItem = ({ rawSong, idx }: { rawSong: Song; idx: number }) => {
       setSong(song);
     };
     fetchSong();
-  }, []);
+  }, [accessToken]);
 
   return (
     <View
