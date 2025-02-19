@@ -14,7 +14,6 @@ export const hydrateTrackInfo = async (
   console.log(response);
 
   const data = await response.json();
-  console.log(data);
 
   const res = {
     name: data.name,
@@ -28,6 +27,6 @@ export const hydrateTrackInfo = async (
     duration_ms: data.duration_ms,
     genre: genre.value,
   };
-  console.log('asdfasdfasdfasdf');
+
   return res;
 };
