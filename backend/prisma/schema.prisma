@@ -26,6 +26,8 @@ model User {
   seenSongs Song[] @relation("SongSeenBy")
   likedPlaylists PlaylistLike[]
   playlists Playlist[]
+  friends User[] @relation("Friends")
+  friendedBy User[] @relation("Friends")
 }
 
 model Song {
@@ -55,5 +57,3 @@ model PlaylistLike {
   user User @relation(fields: [userId], references: [id])
   userId Int
 }
-
-
