@@ -32,3 +32,16 @@ export const updateUser = async ({
 
   return [data.user, null];
 };
+
+export const search = async (query: string): Promise<User[]> => {
+  const response = await fetch(`${LOCAL_API_ENDPOINT}/user/search?q=${query}`);
+
+  const data = await response.json();
+
+  if (!data.results) {
+    console.log('Error receiving results for user search query: ', query);
+    return [];
+  }
+
+  return data.results as User[];
+};
