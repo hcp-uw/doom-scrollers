@@ -9,6 +9,7 @@ export interface User {
   username: string;
   createdAt: Date;
   updatedAt: Date;
+  profilePictureURL: string;
 }
 
 export interface ErrorResponse {

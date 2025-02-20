@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import {
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+  Image,
+} from 'react-native';
 import { InputField } from '@/components/InputField';
 import CurveTextHeader from '@/components/CurveTextHeader';
 import { Button } from '@/components/Button';
@@ -102,12 +109,21 @@ const UserListView: React.FC<{ users: User[] }> = ({ users }) => {
               marginVertical: 4,
               marginHorizontal: 8,
               marginBlock: 5,
-              borderWidth: 1,
-              borderColor: '#a568ff',
+              gap: 15,
             }}
+            key={user.id}
           >
+            <Image
+              source={{ uri: user.profilePictureURL }}
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: '50%',
+                borderWidth: 3,
+                borderColor: '#a568ff',
+              }}
+            />
             <Text
-              key={user.id}
               style={{
                 color: 'white',
                 fontFamily: 'LexendDeca_500Medium',
