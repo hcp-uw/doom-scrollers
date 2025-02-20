@@ -29,6 +29,8 @@ model User {
   playlists Playlist[]
   friends User[] @relation("Friends")
   friendedBy User[] @relation("Friends")
+  friendRequestsSent FriendRequest[] @relation("FromUser")
+  friendRequestsReceived FriendRequest[] @relation("ToUser") 
 }
 
 model Song {
@@ -57,4 +59,13 @@ model PlaylistLike {
   playlistId Int
   user User @relation(fields: [userId], references: [id])
   userId Int
+}
+
+model FriendRequest {
+  id Int @id @default(autoincrement())
+  from User @relation("FromUser", fields: [fromUserId], references: [id])
+  fromUserId Int @unique
+  to User @relation("ToUser", fields: [toUserId], references: [id])
+  toUserId Int @unique
+  read Boolean
 }
