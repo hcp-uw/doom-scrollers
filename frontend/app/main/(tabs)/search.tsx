@@ -4,24 +4,28 @@ import { InputField } from '@/components/InputField';
 import CurveTextHeader from '@/components/CurveTextHeader';
 import { Button } from '@/components/Button';
 import { useRouter } from 'expo-router';
-import { Song } from '@/types';
+import { Song, User } from '@/types';
 import { getLikedSongs, searchSongs } from '@/services/songs';
 import TrackCard from '@/components/TrackCard';
+import { searchUsers } from '@/services/user';
 
 export default function SearchScreen() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<Song[]>([]);
+  const [songSearchResults, setSongSearchResults] = useState<Song[]>([]);
+  const [userSearchResults, setUserSearchResults] = useState<User[]>([]);
   const [queryTarget, setQueryTarget] = useState<'users' | 'songs'>('songs');
 
   const updateSearchResults = async (query: string) => {
     if (queryTarget === 'songs') {
       const newSongs = await searchSongs(query);
-      setSearchResults(newSongs);
+      setSongSearchResults(newSongs);
+    } else {
+      const newUsers = await searchUsers(query);
+      setUserSearchResults(newUsers);
     }
   };
 
   const handleSearch = (query: string) => {
-    setSearchQuery(query);
+    updateSearchResults(query);
   };
 
   return (
@@ -51,6 +55,7 @@ export default function SearchScreen() {
           kind={queryTarget === 'users' ? 'primary' : 'secondary'}
           onPress={() => {
             setQueryTarget('users');
+            setSongSearchResults([]);
           }}
         />
         <Button
@@ -63,17 +68,60 @@ export default function SearchScreen() {
           kind={queryTarget === 'songs' ? 'primary' : 'secondary'}
           onPress={() => {
             setQueryTarget('songs');
+            setUserSearchResults([]);
           }}
         />
       </View>
-      <ScrollView style={{ width: '90%', backgroundColor: 'black' }}>
-        {searchResults.map((song) => {
-          return <TrackCard rawTrack={song} key={song.trackID} />;
-        })}
+      <ScrollView
+        style={{ width: '95%', backgroundColor: 'black', marginTop: 20 }}
+      >
+        {queryTarget === 'songs' ? (
+          songSearchResults.map((song) => {
+            return <TrackCard rawTrack={song} key={song.trackID} />;
+          })
+        ) : (
+          <UserListView users={userSearchResults} />
+        )}
       </ScrollView>
     </SafeAreaView>
   );
 }
+
+const UserListView: React.FC<{ users: User[] }> = ({ users }) => {
+  return (
+    <>
+      {users.map((user) => {
+        return (
+          <View
+            style={{
+              flexDirection: 'row',
+              padding: 12,
+              backgroundColor: '#1A1A1A',
+              borderRadius: 8,
+              alignItems: 'center',
+              marginVertical: 4,
+              marginHorizontal: 8,
+              marginBlock: 5,
+              borderWidth: 1,
+              borderColor: '#a568ff',
+            }}
+          >
+            <Text
+              key={user.id}
+              style={{
+                color: 'white',
+                fontFamily: 'LexendDeca_500Medium',
+                fontSize: 17,
+              }}
+            >
+              {user.username}
+            </Text>
+          </View>
+        );
+      })}
+    </>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

@@ -11,8 +11,6 @@ export const hydrateTrackInfo = async (
     },
   });
 
-  console.log(response);
-
   const data = await response.json();
 
   const res = {
