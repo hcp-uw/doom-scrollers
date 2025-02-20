@@ -23,6 +23,7 @@ model User {
   updatedAt DateTime @updatedAt
   preferences Genre[]
   likedSongs Song[]
+  profilePictureURL String @default("https://i.pravatar.cc/300")
   seenSongs Song[] @relation("SongSeenBy")
   likedPlaylists PlaylistLike[]
   playlists Playlist[]
