@@ -57,7 +57,7 @@ const Profile = () => {
     <SafeAreaView style={styles.background}>
       <View style={styles.profilePictureContainer}>
         <Image
-          source={{ uri: 'https://i.pravatar.cc/300' }}
+          source={{ uri: user?.profilePictureURL }}
           style={styles.profilePicture}
         />
       </View>
