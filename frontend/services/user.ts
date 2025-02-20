@@ -33,7 +33,7 @@ export const updateUser = async ({
   return [data.user, null];
 };
 
-export const search = async (query: string): Promise<User[]> => {
+export const searchUsers = async (query: string): Promise<User[]> => {
   const response = await fetch(`${LOCAL_API_ENDPOINT}/user/search?q=${query}`);
 
   const data = await response.json();

@@ -64,6 +64,5 @@ export const getSpecificPlaylist = async (id: number) => {
 
   const data = await response.json();
 
-  console.log(data);
   return data as Playlist;
 };

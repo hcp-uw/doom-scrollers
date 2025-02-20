@@ -16,7 +16,6 @@ export default function PlaylistScreen() {
   useEffect(() => {
     const fetchPlaylist = async () => {
       const playlist = await getSpecificPlaylist(parseInt(id as string));
-      console.log(playlist.songs);
       setPlaylist(playlist);
     };
     fetchPlaylist();
@@ -50,9 +49,7 @@ export default function PlaylistScreen() {
             </Text>
           </View>
 
-          {/* Songs List */}
           <View style={{ padding: 20, marginTop: -40 }}>
-            {/* Placeholder song items */}
             {playlist.songs.map((song, idx) => (
               <SongItem key={idx} rawSong={song} idx={idx + 1} />
             ))}
@@ -74,7 +71,6 @@ const SongItem = ({ rawSong, idx }: { rawSong: Song; idx: number }) => {
         rawSong.genre,
         accessToken!
       );
-      console.log(song);
       setSong(song);
     };
     fetchSong();
