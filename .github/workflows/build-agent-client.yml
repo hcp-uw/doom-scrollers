@@ -3,8 +3,12 @@ name: Build Agent Client
 on:
   push:
     branches: [main]
+    paths:
+      - 'agents/client/**'
   pull_request:
     branches: [main]
+    paths:
+      - 'agents/client/**'
   workflow_dispatch:
 
 defaults:
