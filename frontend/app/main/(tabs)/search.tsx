@@ -105,7 +105,6 @@ const UserListView: React.FC<{
 }> = ({ users, currentUserId }) => {
   const handleFriendRequest = async (id: number) => {
     const successValue = await sendFriendRequest(id);
-    console.log('friend request status', successValue);
   };
 
   return (
