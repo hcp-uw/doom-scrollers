@@ -6,6 +6,7 @@ import {
   Text,
   View,
   Image,
+  TouchableOpacity,
 } from 'react-native';
 import { InputField } from '@/components/InputField';
 import CurveTextHeader from '@/components/CurveTextHeader';
@@ -15,11 +16,15 @@ import { Song, User } from '@/types';
 import { getLikedSongs, searchSongs } from '@/services/songs';
 import TrackCard from '@/components/TrackCard';
 import { searchUsers } from '@/services/user';
+import { AntDesign } from '@expo/vector-icons';
+import { useAuth } from '@/hooks/useAuth';
+import { sendFriendRequest } from '@/services/friendRequests';
 
 export default function SearchScreen() {
   const [songSearchResults, setSongSearchResults] = useState<Song[]>([]);
   const [userSearchResults, setUserSearchResults] = useState<User[]>([]);
   const [queryTarget, setQueryTarget] = useState<'users' | 'songs'>('songs');
+  const { user } = useAuth();
 
   const updateSearchResults = async (query: string) => {
     if (queryTarget === 'songs') {
@@ -87,54 +92,82 @@ export default function SearchScreen() {
             return <TrackCard rawTrack={song} key={song.trackID} />;
           })
         ) : (
-          <UserListView users={userSearchResults} />
+          <UserListView users={userSearchResults} currentUserId={user!.id} />
         )}
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-const UserListView: React.FC<{ users: User[] }> = ({ users }) => {
+const UserListView: React.FC<{
+  users: User[];
+  currentUserId: number;
+}> = ({ users, currentUserId }) => {
+  const handleFriendRequest = async (id: number) => {
+    const successValue = await sendFriendRequest(id);
+  };
+
   return (
     <>
-      {users.map((user) => {
-        return (
-          <View
-            style={{
-              flexDirection: 'row',
-              padding: 12,
-              backgroundColor: '#1A1A1A',
-              borderRadius: 8,
-              alignItems: 'center',
-              marginVertical: 4,
-              marginHorizontal: 8,
-              marginBlock: 5,
-              gap: 15,
-            }}
-            key={user.id}
-          >
-            <Image
-              source={{ uri: user.profilePictureURL }}
+      {users
+        .filter((value) => value.id !== currentUserId)
+        .map((user) => {
+          return (
+            <View
               style={{
-                width: 40,
-                height: 40,
-                borderRadius: '50%',
-                borderWidth: 3,
-                borderColor: '#a568ff',
+                flexDirection: 'row',
+                padding: 12,
+                backgroundColor: '#1A1A1A',
+                borderRadius: 8,
+                alignItems: 'center',
+                marginVertical: 4,
+                marginHorizontal: 8,
+                marginBlock: 5,
+                gap: 15,
+                justifyContent: 'space-between',
               }}
-            />
-            <Text
-              style={{
-                color: 'white',
-                fontFamily: 'LexendDeca_500Medium',
-                fontSize: 17,
-              }}
+              key={user.id}
             >
-              {user.username}
-            </Text>
-          </View>
-        );
-      })}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 15,
+                }}
+              >
+                <Image
+                  source={{ uri: user.profilePictureURL }}
+                  style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: '50%',
+                    borderWidth: 3,
+                    borderColor: '#a568ff',
+                  }}
+                />
+                <Text
+                  style={{
+                    color: 'white',
+                    fontFamily: 'LexendDeca_500Medium',
+                    fontSize: 17,
+                  }}
+                >
+                  {user.username}
+                </Text>
+              </View>
+              <TouchableOpacity
+                style={{
+                  marginRight: 10,
+                }}
+                onPress={() => {
+                  handleFriendRequest(user.id);
+                }}
+              >
+                <AntDesign name="adduser" size={22} color="white" />
+              </TouchableOpacity>
+            </View>
+          );
+        })}
     </>
   );
 };
