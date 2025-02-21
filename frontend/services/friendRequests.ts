@@ -2,7 +2,6 @@ import { LOCAL_API_ENDPOINT } from '@/constants';
 import { getCookie } from '@/utils/cookies';
 
 export const sendFriendRequest = async (to: number) => {
-  console.log('here');
   const response = await fetch(`${LOCAL_API_ENDPOINT}/friends/requests/add`, {
     method: 'POST',
     headers: {
@@ -12,5 +11,6 @@ export const sendFriendRequest = async (to: number) => {
     body: JSON.stringify({ to }),
   });
   const body = await response.json();
+  console.log(body);
   return !!body.result;
 };

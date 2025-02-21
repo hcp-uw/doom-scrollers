@@ -11,14 +11,14 @@ import {
 import { InputField } from '@/components/InputField';
 import CurveTextHeader from '@/components/CurveTextHeader';
 import { Button } from '@/components/Button';
-import { useRouter } from 'expo-router';
 import { Song, User } from '@/types';
-import { getLikedSongs, searchSongs } from '@/services/songs';
+import { searchSongs } from '@/services/songs';
 import TrackCard from '@/components/TrackCard';
 import { searchUsers } from '@/services/user';
 import { AntDesign } from '@expo/vector-icons';
 import { useAuth } from '@/hooks/useAuth';
 import { sendFriendRequest } from '@/services/friendRequests';
+import Toast from 'react-native-toast-message';
 
 export default function SearchScreen() {
   const [songSearchResults, setSongSearchResults] = useState<Song[]>([]);
@@ -105,6 +105,12 @@ const UserListView: React.FC<{
 }> = ({ users, currentUserId }) => {
   const handleFriendRequest = async (id: number) => {
     const successValue = await sendFriendRequest(id);
+    if (successValue) {
+      Toast.show({
+        type: 'success',
+        text1: 'Friend request sent!',
+      });
+    }
   };
 
   return (
