@@ -64,8 +64,8 @@ model PlaylistLike {
 model FriendRequest {
   id Int @id @default(autoincrement())
   from User @relation("FromUser", fields: [fromUserId], references: [id])
-  fromUserId Int @unique
+  fromUserId Int
   to User @relation("ToUser", fields: [toUserId], references: [id])
-  toUserId Int @unique
+  toUserId Int
   read Boolean
 }
