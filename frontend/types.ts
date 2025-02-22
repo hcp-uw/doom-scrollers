@@ -63,3 +63,11 @@ export interface Playlist {
   name: string;
   songs: Song[];
 }
+
+export interface FriendRequest {
+  id: number;
+  fromUserId: number;
+  toUserId: number;
+  read: boolean;
+  from: User;
+}
