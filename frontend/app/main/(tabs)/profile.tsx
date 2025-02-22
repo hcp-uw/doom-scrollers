@@ -5,6 +5,7 @@ import {
   View,
   Image,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import { useAuth } from '@/hooks/useAuth';
 import GenreCard from '@/components/GenreCard';
@@ -17,6 +18,7 @@ import { getUserGenres } from '@/services/genre';
 import { useRouter } from 'expo-router';
 import { AccountSettingsModal } from '@/components/AccountSettingsModal';
 import { logout } from '@/services/auth/logout';
+import FriendRequestModal from '@/components/FriendRequestModal';
 
 const Profile = () => {
   const { user, error, isLoading, fetchUser } = useAuth();
@@ -28,6 +30,8 @@ const Profile = () => {
     const userGenres = await getUserGenres();
     setGenres(userGenres);
   };
+  const [isFriendRequestModalVisible, setIsFriendRequestModalVisible] =
+    useState(false);
 
   useEffect(() => {
     fetchGenres();
@@ -151,6 +155,16 @@ const Profile = () => {
           }}
         />
       </View>
+      <TouchableOpacity
+        style={{ position: 'absolute', top: 50, right: 30 }}
+        onPress={() => setIsFriendRequestModalVisible(true)}
+      >
+        <AntDesign name="bells" size={24} color="white" />
+      </TouchableOpacity>
+      <FriendRequestModal
+        onClose={() => setIsFriendRequestModalVisible(false)}
+        visible={isFriendRequestModalVisible}
+      />
     </SafeAreaView>
   );
 };
