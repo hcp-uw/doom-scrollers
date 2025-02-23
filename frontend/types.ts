@@ -55,7 +55,6 @@ export interface SpotifyTrack {
   artists: SpotifyArtist[];
   album: SpotifyAlbum;
   duration_ms: number;
-  genre: string;
 }
 
 export interface Playlist {
