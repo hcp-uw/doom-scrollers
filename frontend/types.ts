@@ -71,3 +71,9 @@ export interface FriendRequest {
   read: boolean;
   from: User;
 }
+
+export interface FeedItem extends User {
+  preferences: Genre[];
+  likedSongs: Song[];
+  playlists: Playlist[];
+}

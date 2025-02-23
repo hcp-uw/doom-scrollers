@@ -1,6 +1,15 @@
+import { getFeed } from '@/services/friends';
+import { useEffect } from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
 const Feed = () => {
+  useEffect(() => {
+    const loadFeed = async () => {
+      getFeed();
+    };
+    loadFeed();
+  });
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
