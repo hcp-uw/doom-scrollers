@@ -1,19 +1,46 @@
-import { getFeed } from '@/services/friends';
+import SongView from '@/components/SongView';
+import { useFeed } from '@/hooks/useFeed';
+import { useSpotify } from '@/hooks/useSpotify';
 import { useEffect } from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import {
+  Dimensions,
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  View,
+} from 'react-native';
 
 const Feed = () => {
+  const { songs } = useFeed();
+  const { accessToken } = useSpotify();
+
   useEffect(() => {
-    const loadFeed = async () => {
-      getFeed();
-    };
-    loadFeed();
-  });
+    console.log(accessToken);
+  }, [accessToken]);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Friends</Text>
+        {accessToken && (
+          <FlatList
+            data={songs}
+            renderItem={({ item }) => (
+              <SongView
+                accessToken={accessToken!}
+                songId={item.trackID}
+                genre={item.genre}
+                username={item.username}
+              />
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            snapToAlignment="start"
+            decelerationRate="fast"
+            snapToInterval={Dimensions.get('window').height}
+            viewabilityConfig={{
+              itemVisiblePercentThreshold: 25,
+            }}
+          />
+        )}
       </View>
     </SafeAreaView>
   );
