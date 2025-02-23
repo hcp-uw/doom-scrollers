@@ -18,10 +18,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: 'Listen',
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name={focused ? 'home' : 'home-outline'}
+              name={focused ? 'musical-notes' : 'musical-notes-outline'}
               color={color}
               size={20}
             />
@@ -35,6 +35,19 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? 'search' : 'search-outline'}
+              color={color}
+              size={20}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="feed"
+        options={{
+          title: 'Feed',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? 'home' : 'home-outline'}
               color={color}
               size={20}
             />
