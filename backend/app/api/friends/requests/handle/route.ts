@@ -33,9 +33,15 @@ export const PUT = async (req: NextRequest) => {
     data: {
       friends: {
         connect: {
-          id,
+          id: friendRequest!.fromUserId,
         },
       },
+    },
+  });
+
+  await prisma.friendRequest.delete({
+    where: {
+      id,
     },
   });
 
