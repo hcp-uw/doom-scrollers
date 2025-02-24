@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, View } from 'react-native';
 import { InputField } from '@/components/InputField';
 import CurveTextHeader from '@/components/CurveTextHeader';
 import { Button } from '@/components/Button';
@@ -15,7 +7,6 @@ import { Song, User } from '@/types';
 import { searchSongs } from '@/services/songs';
 import TrackCard from '@/components/TrackCard';
 import { searchUsers } from '@/services/user';
-import { AntDesign } from '@expo/vector-icons';
 import { useAuth } from '@/hooks/useAuth';
 import { sendFriendRequest } from '@/services/friendRequests';
 import Toast from 'react-native-toast-message';
@@ -93,7 +84,7 @@ export default function SearchScreen() {
             return <TrackCard rawTrack={song} key={song.trackID} />;
           })
         ) : (
-          <UserListView users={userSearchResults} currentUserId={user!.id} />
+          <UserListView users={userSearchResults} currentUser={user!} />
         )}
       </ScrollView>
     </SafeAreaView>
@@ -102,8 +93,8 @@ export default function SearchScreen() {
 
 const UserListView: React.FC<{
   users: User[];
-  currentUserId: number;
-}> = ({ users, currentUserId }) => {
+  currentUser: User;
+}> = ({ users, currentUser }) => {
   const handleFriendRequest = async (id: number) => {
     const successValue = await sendFriendRequest(id);
     if (successValue) {
@@ -114,16 +105,20 @@ const UserListView: React.FC<{
     }
   };
 
+  const userFriends = new Set(currentUser.friends.map((friend) => friend.id));
+
   return (
     <>
       {users
-        .filter((value) => value.id !== currentUserId)
+        .filter((value) => value.id !== currentUser.id)
         .map((user) => {
           return (
             <UserView
               key={user.id}
               user={user}
-              handleFriendRequest={handleFriendRequest}
+              handleFriendRequest={
+                userFriends.has(user.id) ? undefined : handleFriendRequest
+              }
             />
           );
         })}
