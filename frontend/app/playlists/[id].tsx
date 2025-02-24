@@ -66,11 +66,7 @@ const SongItem = ({ rawSong, idx }: { rawSong: Song; idx: number }) => {
 
   useEffect(() => {
     const fetchSong = async () => {
-      const song = await hydrateTrackInfo(
-        rawSong.trackID,
-        rawSong.genre,
-        accessToken!
-      );
+      const song = await hydrateTrackInfo(rawSong.trackID, accessToken!);
       setSong(song);
     };
     fetchSong();

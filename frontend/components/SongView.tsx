@@ -11,8 +11,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { likeTrack, dislikeTrack } from '@/services/songs';
-import { Genre, SpotifyTrack } from '@/types';
-import { hydrateTrackInfo } from '@/services/spotify';
+import { Genre } from '@/types';
 
 type SongViewProps = {
   songId: string;

@@ -13,6 +13,19 @@ export const GET = async (req: NextRequest) => {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  const user = await prisma.user.findFirst({
+    where: {
+      id: session.uid,
+    },
+    include: {
+      friends: true,
+    },
+  });
+
+  if (!user) {
+    return NextResponse.json({ error: 'User not found' }, { status: 404 });
+  }
+
   const playlist = await prisma.playlist.findUnique({
     where: { id: parseInt(id!) },
     include: {
@@ -29,7 +42,10 @@ export const GET = async (req: NextRequest) => {
     return NextResponse.json({ error: 'Playlist not found' }, { status: 404 });
   }
 
-  if (playlist.authorId !== session.uid) {
+  if (
+    playlist.authorId !== user!.id ||
+    !user!.friends.map((elem) => elem.id).includes(playlist.authorId)
+  ) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
