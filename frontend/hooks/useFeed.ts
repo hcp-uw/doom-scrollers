@@ -1,5 +1,5 @@
 import { getFeed } from '@/services/friends';
-import { Genre, Playlist, Song } from '@/types';
+import { Genre, Playlist, Song, User } from '@/types';
 import { useEffect, useState } from 'react';
 
 export const useFeed = () => {
@@ -8,12 +8,13 @@ export const useFeed = () => {
     Array<Playlist & { username: string }>
   >([]);
   const [genres, setGenres] = useState<Array<Genre & { username: string }>>([]);
+  const [friends, setFriends] = useState<Array<User>>([]);
 
   const fetchFeed = async () => {
-    console.log('fetching feed');
     let newSongs: Array<Song & { username: string }> = [];
     let newPlaylists: Array<Playlist & { username: string }> = [];
     let newGenres: Array<Genre & { username: string }> = [];
+    let newFriends: User[] = [];
 
     const feed = await getFeed();
     feed.forEach((element) => {
@@ -38,20 +39,18 @@ export const useFeed = () => {
           username: element.username,
         })),
       ];
+      newFriends = [...newFriends, element];
     });
-
-    console.log(newSongs);
-    console.log(newPlaylists);
-    console.log(newGenres);
 
     setSongs(newSongs);
     setPlaylists(newPlaylists);
     setGenres(newGenres);
+    setFriends(newFriends);
   };
 
   useEffect(() => {
     fetchFeed();
   }, []);
 
-  return { songs, playlists, genres, fetchFeed };
+  return { songs, playlists, genres, friends, fetchFeed };
 };

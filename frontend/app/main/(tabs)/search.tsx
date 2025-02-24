@@ -19,6 +19,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { useAuth } from '@/hooks/useAuth';
 import { sendFriendRequest } from '@/services/friendRequests';
 import Toast from 'react-native-toast-message';
+import { UserView } from '@/components/UserView';
 
 export default function SearchScreen() {
   const [songSearchResults, setSongSearchResults] = useState<Song[]>([]);
@@ -119,59 +120,11 @@ const UserListView: React.FC<{
         .filter((value) => value.id !== currentUserId)
         .map((user) => {
           return (
-            <View
-              style={{
-                flexDirection: 'row',
-                padding: 12,
-                backgroundColor: '#1A1A1A',
-                borderRadius: 8,
-                alignItems: 'center',
-                marginVertical: 4,
-                marginHorizontal: 8,
-                marginBlock: 5,
-                gap: 15,
-                justifyContent: 'space-between',
-              }}
+            <UserView
               key={user.id}
-            >
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 15,
-                }}
-              >
-                <Image
-                  source={{ uri: user.profilePictureURL }}
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: '50%',
-                    borderWidth: 3,
-                    borderColor: '#a568ff',
-                  }}
-                />
-                <Text
-                  style={{
-                    color: 'white',
-                    fontFamily: 'LexendDeca_500Medium',
-                    fontSize: 17,
-                  }}
-                >
-                  {user.username}
-                </Text>
-              </View>
-              <TouchableOpacity
-                style={{
-                  marginRight: 10,
-                }}
-                onPress={() => {
-                  handleFriendRequest(user.id);
-                }}
-              >
-                <AntDesign name="adduser" size={22} color="white" />
-              </TouchableOpacity>
-            </View>
+              user={user}
+              handleFriendRequest={handleFriendRequest}
+            />
           );
         })}
     </>

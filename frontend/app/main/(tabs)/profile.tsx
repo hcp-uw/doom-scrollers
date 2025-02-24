@@ -19,6 +19,8 @@ import { useRouter } from 'expo-router';
 import { AccountSettingsModal } from '@/components/AccountSettingsModal';
 import { logout } from '@/services/auth/logout';
 import FriendRequestModal from '@/components/FriendRequestModal';
+import FriendViewModal from '@/components/FriendViewModal';
+import { Ionicons } from '@expo/vector-icons';
 
 const Profile = () => {
   const { user, error, isLoading, fetchUser } = useAuth();
@@ -32,6 +34,8 @@ const Profile = () => {
   };
   const [isFriendRequestModalVisible, setIsFriendRequestModalVisible] =
     useState(false);
+
+  const [isFriendsModalVisible, setIsFriendsModalVisible] = useState(false);
 
   useEffect(() => {
     fetchGenres();
@@ -164,6 +168,16 @@ const Profile = () => {
       <FriendRequestModal
         onClose={() => setIsFriendRequestModalVisible(false)}
         visible={isFriendRequestModalVisible}
+      />
+      <TouchableOpacity
+        style={{ position: 'absolute', top: 50, left: 30 }}
+        onPress={() => setIsFriendsModalVisible(true)}
+      >
+        <Ionicons name="people-outline" size={24} color="white" />
+      </TouchableOpacity>
+      <FriendViewModal
+        visible={isFriendsModalVisible}
+        onClose={() => setIsFriendsModalVisible(false)}
       />
     </SafeAreaView>
   );
