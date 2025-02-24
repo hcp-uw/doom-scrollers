@@ -1,9 +1,10 @@
+import { useFeed } from '@/hooks/useFeed';
 import {
   getFriendRequests,
   handleFriendRequest,
 } from '@/services/friendRequests';
 import { FriendRequest } from '@/types';
-import { Ionicons } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
 import {
   Modal,
@@ -20,25 +21,11 @@ interface FriendRequestModalProps {
   onClose: () => void;
 }
 
-const FriendRequestModal: React.FC<FriendRequestModalProps> = ({
+const FriendViewModal: React.FC<FriendRequestModalProps> = ({
   visible,
   onClose,
 }) => {
-  const [loading, setIsLoading] = useState(true);
-  const [friendRequests, setFriendRequests] = useState<FriendRequest[]>([]);
-
-  useEffect(() => {
-    const fetchFriendRequests = async () => {
-      setIsLoading(true);
-      setFriendRequests(await getFriendRequests());
-      setIsLoading(false);
-    };
-    fetchFriendRequests();
-  }, [visible]);
-
-  if (loading) {
-    return null;
-  }
+  const { friends } = useFeed();
 
   return (
     <Modal
@@ -49,36 +36,51 @@ const FriendRequestModal: React.FC<FriendRequestModalProps> = ({
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>Friend Requests</Text>
+          <Text style={styles.modalText}>Friends</Text>
           <View style={styles.horizontalLine} />
           <ScrollView>
-            {friendRequests.map((item) => (
-              <View style={styles.requestItem} key={item.id}>
-                <View style={styles.profileView}>
+            {friends.map((user) => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  padding: 12,
+                  backgroundColor: '#1A1A1A',
+                  borderRadius: 8,
+                  alignItems: 'center',
+                  marginVertical: 4,
+                  marginHorizontal: 8,
+                  marginBlock: 5,
+                  gap: 15,
+                  justifyContent: 'space-between',
+                }}
+                key={user.id}
+              >
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 15,
+                  }}
+                >
                   <Image
-                    source={{ uri: item.from.profilePictureURL }}
+                    source={{ uri: user.profilePictureURL }}
                     style={{
-                      width: 30,
-                      height: 30,
+                      width: 40,
+                      height: 40,
                       borderRadius: '50%',
-                      marginRight: 5,
+                      borderWidth: 3,
+                      borderColor: '#a568ff',
                     }}
                   />
-                  <Text style={styles.requestText}>{item.from.username}</Text>
-                </View>
-                <View style={[styles.buttonContainer, { marginLeft: 30 }]}>
-                  <TouchableOpacity
-                    style={[styles.button]}
-                    onPress={() => handleFriendRequest(item.id, 'accept')}
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontFamily: 'LexendDeca_500Medium',
+                      fontSize: 17,
+                    }}
                   >
-                    <Ionicons name="checkmark" size={20} color="#a568ff" />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[styles.button]}
-                    onPress={() => handleFriendRequest(item.id, 'decline')}
-                  >
-                    <Ionicons name="close" size={20} color="#a568ff" />
-                  </TouchableOpacity>
+                    {user.username}
+                  </Text>
                 </View>
               </View>
             ))}
@@ -173,4 +175,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FriendRequestModal;
+export default FriendViewModal;
