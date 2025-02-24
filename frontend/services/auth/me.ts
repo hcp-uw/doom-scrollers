@@ -21,6 +21,7 @@ export const getCurrentSession = async (): Promise<
       ...(data.user as User),
       createdAt: new Date(data.user.createdAt),
       updatedAt: new Date(data.user.updatedAt),
+      friends: data.user.friends as User[],
     },
     null,
   ];

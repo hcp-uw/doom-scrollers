@@ -21,6 +21,7 @@ export const GET = async () => {
     include: {
       likedSongs: true,
       preferences: true,
+      friends: true,
     },
   });
 

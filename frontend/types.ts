@@ -10,6 +10,7 @@ export interface User {
   createdAt: Date;
   updatedAt: Date;
   profilePictureURL: string;
+  friends: User[];
 }
 
 export interface ErrorResponse {
