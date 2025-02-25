@@ -15,6 +15,8 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
+import { UserView } from './UserView';
+import { removeFriend } from '@/services/friends';
 
 interface FriendRequestModalProps {
   visible: boolean;
@@ -40,49 +42,13 @@ const FriendViewModal: React.FC<FriendRequestModalProps> = ({
           <View style={styles.horizontalLine} />
           <ScrollView>
             {friends.map((user) => (
-              <View
-                style={{
-                  flexDirection: 'row',
-                  padding: 12,
-                  backgroundColor: '#1A1A1A',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                  marginVertical: 4,
-                  marginHorizontal: 8,
-                  marginBlock: 5,
-                  gap: 15,
-                  justifyContent: 'space-between',
-                }}
+              <UserView
+                user={user}
                 key={user.id}
-              >
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    gap: 15,
-                  }}
-                >
-                  <Image
-                    source={{ uri: user.profilePictureURL }}
-                    style={{
-                      width: 40,
-                      height: 40,
-                      borderRadius: '50%',
-                      borderWidth: 3,
-                      borderColor: '#a568ff',
-                    }}
-                  />
-                  <Text
-                    style={{
-                      color: 'white',
-                      fontFamily: 'LexendDeca_500Medium',
-                      fontSize: 17,
-                    }}
-                  >
-                    {user.username}
-                  </Text>
-                </View>
-              </View>
+                removeFriend={(id) => {
+                  removeFriend(id);
+                }}
+              />
             ))}
           </ScrollView>
           <TouchableOpacity

@@ -5,11 +5,13 @@ import { View, TouchableOpacity, Image, Text } from 'react-native';
 interface UserViewProps {
   user: User;
   handleFriendRequest?: (id: number) => void;
+  removeFriend?: (id: number) => void;
 }
 
 export const UserView: React.FC<UserViewProps> = ({
   user,
   handleFriendRequest,
+  removeFriend,
 }) => {
   return (
     <View
@@ -64,6 +66,16 @@ export const UserView: React.FC<UserViewProps> = ({
           }}
         >
           <AntDesign name="adduser" size={22} color="white" />
+        </TouchableOpacity>
+      )}
+      {removeFriend && (
+        <TouchableOpacity
+          style={{ marginRight: 10 }}
+          onPress={() => {
+            removeFriend(user.id);
+          }}
+        >
+          <AntDesign name="delete" size={22} color="white" />
         </TouchableOpacity>
       )}
     </View>
