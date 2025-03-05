@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   StyleSheet,
   View,
+  Text,
 } from 'react-native';
 
 const Feed = () => {
@@ -21,26 +22,35 @@ const Feed = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        {accessToken && (
-          <FlatList
-            data={songs}
-            renderItem={({ item }) => (
-              <SongView
-                accessToken={accessToken!}
-                songId={item.trackID}
-                genre={item.genre}
-                username={item.username}
-              />
-            )}
-            keyExtractor={(item, index) => index.toString()}
-            snapToAlignment="start"
-            decelerationRate="fast"
-            snapToInterval={Dimensions.get('window').height}
-            viewabilityConfig={{
-              itemVisiblePercentThreshold: 25,
-            }}
-          />
-        )}
+        {accessToken &&
+          (songs.length > 0 ? (
+            <FlatList
+              data={songs}
+              renderItem={({ item }) => (
+                <SongView
+                  accessToken={accessToken!}
+                  songId={item.trackID}
+                  genre={item.genre}
+                  username={item.username}
+                />
+              )}
+              keyExtractor={(item, index) => index.toString()}
+              snapToAlignment="start"
+              decelerationRate="fast"
+              snapToInterval={Dimensions.get('window').height}
+              viewabilityConfig={{
+                itemVisiblePercentThreshold: 25,
+              }}
+            />
+          ) : (
+            <Text
+              style={{
+                color: 'white',
+              }}
+            >
+              No feed to load
+            </Text>
+          ))}
       </View>
     </SafeAreaView>
   );
