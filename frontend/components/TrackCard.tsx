@@ -26,11 +26,7 @@ const TrackCard: React.FC<TrackCardProps> = ({ rawTrack, style }) => {
   useEffect(() => {
     if (!accessToken) return;
     (async () => {
-      const res = await hydrateTrackInfo(
-        rawTrack.trackID,
-        rawTrack.genre,
-        accessToken
-      );
+      const res = await hydrateTrackInfo(rawTrack.trackID, accessToken);
       setTrack(res);
     })();
   }, [accessToken]);

@@ -9,7 +9,7 @@ export const GET = async (req: NextRequest) => {
 
   const session = await verifySession();
 
-  if (!session) {
+  if (!session.isAuth) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -43,7 +43,7 @@ export const GET = async (req: NextRequest) => {
   }
 
   if (
-    playlist.authorId !== user!.id ||
+    playlist.authorId !== user!.id &&
     !user!.friends.map((elem) => elem.id).includes(playlist.authorId)
   ) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
